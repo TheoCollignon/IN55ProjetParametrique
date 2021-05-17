@@ -74,9 +74,9 @@ nbShinyPts = len(shinyCircle)
 
 edges = []
 
-# # Point du bas vers le milieu
-# for x in range(nbMiddlePts + 1):
-#     edges.append([0, x])
+# Point du bas vers le milieu
+for x in range(nbMiddlePts + 1):
+    edges.append([0, x])
 
 # Couronne du milieu
 for x in range(1, nbMiddlePts):
@@ -98,14 +98,14 @@ if nbMiddlePts == nbTopPts:  # Même nombre de points
     for x in range(1, nbMiddlePts + 1):
         edges.append([x, nbMiddlePts + x])
 
-# elif nbMiddlePts == nbTopPts * 2:  # Deux fois plus de points au milieu
+# elif nbMiddlePts == nbTopPts * 2:  # Deux fois plus de points au milieu avec espacement base
 #     temp = 1
 #     for x in range(1, nbTopPts + 1):
 #         edges.append([temp, nbMiddlePts + x])
 #         edges.append([temp + 1, nbMiddlePts + x])
 #         temp = temp + 2
 
-elif nbMiddlePts == nbTopPts * 2:  # Deux fois plus de points au milieu
+elif nbMiddlePts == nbTopPts * 2:  # Deux fois plus de points au milieu sans espacements base
     temp = 1
     for x in range(1, nbTopPts + 1):
         edges.append([temp, nbMiddlePts + x])
@@ -127,10 +127,20 @@ elif nbMiddlePts == nbTopPts * 3:  # trois fois plus de points au milieu
         edges.append([temp + 2, nbMiddlePts + x])
         temp = temp + 3
 
-# from top to shiny
+# from top to shiny avec points séparé
+# if nbShinyPts == nbTopPts:  # Même nombre de points
+#     for x in range(1, nbShinyPts + 1):
+#         edges.append([nbMiddlePts + x, nbMiddlePts + nbTopPts + x])
+
+# from top to shiny avec points collé
 if nbShinyPts == nbTopPts:  # Même nombre de points
     for x in range(1, nbShinyPts + 1):
+        if x != 1:
+            edges.append([nbMiddlePts + x - 1, nbMiddlePts + nbTopPts + x])
         edges.append([nbMiddlePts + x, nbMiddlePts + nbTopPts + x])
+    edges.append([nbMiddlePts + nbShinyPts +1, nbMiddlePts + nbTopPts ])
+
+
 elif nbMiddlePts + nbTopPts == nbShinyPts * 2:  # Deux fois plus de points au milieu
     temp = 1
     for x in range(1, nbShinyPts + 1):
