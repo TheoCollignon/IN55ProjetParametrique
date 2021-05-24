@@ -1,3 +1,5 @@
+import random
+
 import pygame
 import math
 
@@ -158,23 +160,33 @@ elif nbTopPts == 1:
 
 # Trying some stuff with colors :
 colors = (
-    (1,0,0),
-    (0,1,0),
     (0,0,1),
-    (0,1,0),
     (1,1,1),
     (0,1,1),
-    (1,0,0),
-    (0,1,0),
-    (0,0,1),
-    (1,0,0),
-    (1,1,1),
     (0,1,1),
     )
 
 # Si ça marche ...
 surfaces = (
-    (0,1,2,3)
+    (0,2,1),
+    (0,2,3),
+    (0,4,3),
+    (0,4,5),
+    (0,6,5),
+    (0,6,7),
+    (0,8,7),
+    (0,8,9),
+    (0,10,9),
+    (0,10,11),
+    (0,12,11),
+    (0,12,13),
+    (0,14,13),
+    (0,14,15),
+    (0,16,15),
+    (0,16,1)
+
+
+
 
     )
 
@@ -185,12 +197,11 @@ surfaces = (
 #             glVertex3fv(verticies[vertex])
 #     glEnd()
 
-def Cube():
-    glBegin(GL_QUADS)
+def Cube(x):
+    glBegin(GL_TRIANGLES)
     for surface in surfaces:
-        x = 0
-        for vertex in surfaces:
-            x+=1
+        for vertex in surface:
+            x = (x+1)%4
             glColor3fv(colors[x])
             glVertex3fv(verticies[vertex])
     glEnd()
@@ -209,7 +220,7 @@ def main():
     gluPerspective(45, (display[0]/display[1]), 0.1, 70.0)
 
     glTranslatef(0.0,0.0, -40)
-
+    x = random.randint(1, 10)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -218,7 +229,7 @@ def main():
 
         glRotatef(1, 3, 1, 1)
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-        Cube()
+        Cube(x)
         pygame.display.flip()
         pygame.time.wait(10)
 
