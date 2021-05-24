@@ -1,6 +1,8 @@
 import pygame
 import math
+
 from pygame.locals import *
+
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
@@ -154,22 +156,59 @@ elif nbTopPts == 1:
         edges.append([x, nbMiddlePts + 1])
 
 
+# Trying some stuff with colors :
+colors = (
+    (1,0,0),
+    (0,1,0),
+    (0,0,1),
+    (0,1,0),
+    (1,1,1),
+    (0,1,1),
+    (1,0,0),
+    (0,1,0),
+    (0,0,1),
+    (1,0,0),
+    (1,1,1),
+    (0,1,1),
+    )
+
+# Si ça marche ...
+surfaces = (
+    (0,1,2,3)
+
+    )
+
+# def Cube():
+#     glBegin(GL_LINES)
+#     for edge in edges:
+#         for vertex in edge:
+#             glVertex3fv(verticies[vertex])
+#     glEnd()
+
 def Cube():
+    glBegin(GL_QUADS)
+    for surface in surfaces:
+        x = 0
+        for vertex in surfaces:
+            x+=1
+            glColor3fv(colors[x])
+            glVertex3fv(verticies[vertex])
+    glEnd()
+
     glBegin(GL_LINES)
     for edge in edges:
         for vertex in edge:
             glVertex3fv(verticies[vertex])
     glEnd()
 
-
 def main():
     pygame.init()
-    display = (800, 600)
-    pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
+    display = (800,600)
+    pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
 
-    gluPerspective(45, (display[0] / display[1]), 0.5, 70.0)
+    gluPerspective(45, (display[0]/display[1]), 0.1, 70.0)
 
-    glTranslatef(0.0, 0.0, -40)
+    glTranslatef(0.0,0.0, -40)
 
     while True:
         for event in pygame.event.get():
@@ -178,11 +217,10 @@ def main():
                 quit()
 
         glRotatef(1, 3, 1, 1)
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
         Cube()
         pygame.display.flip()
         pygame.time.wait(10)
 
 
-if __name__ == "__main__":
-    main()
+main()
