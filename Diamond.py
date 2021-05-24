@@ -160,10 +160,10 @@ elif nbTopPts == 1:
 
 # Trying some stuff with colors :
 colors = (
-    (0,0,1),
-    (1,1,1),
-    (0,1,1),
-    (0,1,1),
+    (0,0,1,0),
+    (1,1,1,0),
+    (0,1,1,0),
+    (0,1,1,0),
     )
 
 # Si ça marche ...
@@ -264,8 +264,11 @@ def Cube(x):
     for surface in surfaces:
         for vertex in surface:
             x = (x+1)%4
-            glColor3fv(colors[x],)
+            y = colors[x]
+
+            glColor4f(y[0],y[1],y[2],y[3])
             glVertex3fv(verticies[vertex])
+
     glEnd()
 
     glBegin(GL_LINES)
@@ -276,12 +279,14 @@ def Cube(x):
 
 def main():
     pygame.init()
-    display = (800,600)
+    display = (800, 600)
     pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
 
     gluPerspective(45, (display[0]/display[1]), 0.1, 70.0)
+    # allow to enable, or disable the tranparency
+    glEnable(GL_DEPTH_TEST)
 
-    glTranslatef(0.0,0.0, -40)
+    glTranslatef(0.0, 0.0, -40)
     x = random.randint(1, 10)
     while True:
         for event in pygame.event.get():
@@ -293,7 +298,7 @@ def main():
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
         Cube(x)
         pygame.display.flip()
-        pygame.time.wait(10)
+        pygame.time.wait(20)
 
 
 main()
