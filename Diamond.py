@@ -160,10 +160,10 @@ elif nbTopPts == 1:
 
 # Trying some stuff with colors :
 colors = (
-    (0,0,1,0),
-    (1,1,1,0),
-    (0,1,1,0),
-    (0,1,1,0),
+    (0, 0, 1, 0),
+    (1, 1, 1, 0),
+    (0, 1, 1, 0),
+    (0, 1, 1, 0),
     (0, 0, 1, 0),
     (0, 0, 1, 0),
     (1, 1, 1, 0),
@@ -198,6 +198,7 @@ for x in range(1, nbTopPts):
     surfaces.append([x + nbMiddlePts, x + nbMiddlePts + nbTopPts, x + nbMiddlePts + nbTopPts + 1])
 surfaces.append([nbMiddlePts + nbTopPts + nbShinyPts, nbMiddlePts + nbTopPts + 1, nbMiddlePts + nbTopPts])
 
+
 # def Cube():
 #     glBegin(GL_LINES)
 #     for edge in edges:
@@ -216,6 +217,18 @@ def Cube(x):
             glVertex3fv(verticies[vertex])
 
     glEnd()
+
+    # Make the circle on the top of the diamond
+    glBegin(GL_POLYGON)
+    circlePts = []
+    for x in range(nbShinyPts):
+        circlePts.append(nbMiddlePts + nbTopPts + x +1)
+    for pointCircle in circlePts:
+        glVertex3fv(verticies[pointCircle])
+    glEnd()
+
+
+
 
     glBegin(GL_LINES)
     for edge in edges:
@@ -244,7 +257,7 @@ def main():
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
         Cube(x)
         pygame.display.flip()
-        pygame.time.wait(20)
+        pygame.time.wait(10)
 
 
 main()
