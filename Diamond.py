@@ -166,91 +166,32 @@ colors = (
     (0,1,1,0),
     )
 
-# Si ça marche ...
-surfaces = (
-    #bottom part
-    (0,2,1),
-    (0,2,3),
-    (0,4,3),
-    (0,4,5),
-    (0,6,5),
-    (0,6,7),
-    (0,8,7),
-    (0,8,9),
-    (0,10,9),
-    (0,10,11),
-    (0,12,11),
-    (0,12,13),
-    (0,14,13),
-    (0,14,15),
-    (0,16,15),
-    (0,16,1),
+surfaces = []
+for x in range(1, nbMiddlePts):
+    surfaces.append([0, x, x + 1])
+surfaces.append([0, nbMiddlePts, 1])
 
-    # Middle part
-    (1,2,17),
-    (2,3,17),
+compt = 1
+for x in range(1, nbTopPts):
+    surfaces.append([compt, compt+1, x + nbMiddlePts])
+    surfaces.append([compt+1, compt+2, x + nbMiddlePts])
+    compt = compt+2
+surfaces.append([compt, compt+1, nbMiddlePts + nbTopPts])
+surfaces.append([compt+1, 1, nbMiddlePts + nbTopPts])
 
-    (3,4,18),
-    (4,5,18),
+surfaces.append([1, nbMiddlePts + nbTopPts, nbMiddlePts + 1])
+compt = 3
+for x in range(1, nbTopPts):
+    surfaces.append([compt, x + nbMiddlePts, x + nbMiddlePts + 1])
+    compt = compt+2
 
-    (5,6,19),
-    (6,7,19),
+for x in range(1, nbTopPts):
+    surfaces.append([x + nbMiddlePts, x + nbMiddlePts + 1, x + nbMiddlePts + nbTopPts + 1])
+surfaces.append([nbMiddlePts + nbTopPts, nbMiddlePts + 1, nbMiddlePts + nbTopPts + 1])
 
-    (7,8,20),
-    (8,9,20),
-
-    (9,10,21),
-    (10,11,21),
-
-    (11,12,22),
-    (12,13,22),
-
-    (13,14,23),
-    (14,15,23),
-
-    (15,16,24),
-    (16,1,24),
-
-    # second part middle
-    (1,24,17),
-    (3,17,18),
-    (5,18,19),
-    (7,19,20),
-    (9,20,21),
-    (11,21,22),
-    (13,22,23),
-    (15,23,24),
-
-    # just au dessus
-    (24,17,25),
-    (17,18,26),
-    (18,19,27),
-    (19,20,28),
-    (20,21,29),
-    (21,22,30),
-    (22,23,31),
-    (23,24,32),
-
-    # last triangle
-    (25,26,17),
-    (26,27,18),
-    (27,28,19),
-    (28,29,20),
-    (29,30,21),
-    (30,31,22),
-    (31,32,23),
-    (32,25,24)
-
-
-
-
-
-
-
-
-
-
-    )
+for x in range(1, nbTopPts):
+    surfaces.append([x + nbMiddlePts, x + nbMiddlePts + nbTopPts, x + nbMiddlePts + nbTopPts + 1])
+surfaces.append([nbMiddlePts + nbTopPts + nbShinyPts, nbMiddlePts + nbTopPts + 1, nbMiddlePts + nbTopPts])
 
 # def Cube():
 #     glBegin(GL_LINES)
