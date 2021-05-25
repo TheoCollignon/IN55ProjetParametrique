@@ -164,6 +164,11 @@ colors = (
     (1,1,1,0),
     (0,1,1,0),
     (0,1,1,0),
+    (0, 0, 1, 0),
+    (0, 0, 1, 0),
+    (1, 1, 1, 0),
+    (0, 1, 0.7, 0),
+    (0, 1, 1, 0),
     )
 
 surfaces = []
@@ -204,7 +209,7 @@ def Cube(x):
     glBegin(GL_TRIANGLES)
     for surface in surfaces:
         for vertex in surface:
-            x = (x+1)%4
+            x = (x+1)%9
             y = colors[x]
 
             glColor4f(y[0],y[1],y[2],y[3])
