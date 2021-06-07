@@ -25,178 +25,180 @@ def circle(xc, yc, n, r, zc):
 
     return listCoord
 
+def createDiamond(diamond):
+    # Diamant v1 :
+    # topCircle = circle(0, 0, 6, 3, 8)
+    # middleCircle = circle(0, 0, 6, 6, 6)
+    # bottomCircle = circle(0, 0, 1, 0, 0)
 
-# Diamant v1 :
-# topCircle = circle(0, 0, 6, 3, 8)
-# middleCircle = circle(0, 0, 6, 6, 6)
-# bottomCircle = circle(0, 0, 1, 0, 0)
+    # Diamant v2 :
+    # topCircle = circle(0, 0, 6, 3, 8)
+    # middleCircle = circle(0, 0, 12, 6, 6)
+    # bottomCircle = circle(0, 0, 1, 0, 0)
 
-# Diamant v2 :
-# topCircle = circle(0, 0, 6, 3, 8)
-# middleCircle = circle(0, 0, 12, 6, 6)
-# bottomCircle = circle(0, 0, 1, 0, 0)
+    # Diamant v3 :
+    # shinyCircle = circle(0, 0, 9, 3, 9)
+    # topCircle = circle(0, 0, 9, 7, 8)
+    # middleCircle = circle(0, 0, 18, 10, 6)
+    # bottomCircle = circle(0, 0, 1, 0, -5)
 
-# Diamant v3 :
-# shinyCircle = circle(0, 0, 9, 3, 9)
-# topCircle = circle(0, 0, 9, 7, 8)
-# middleCircle = circle(0, 0, 18, 10, 6)
-# bottomCircle = circle(0, 0, 1, 0, -5)
+    # Diamant v4 :
+    shinyCircle = circle(0, 0, 8, 3, 9)
+    topCircle = circle(0, 0, 8, 7, 8)
+    middleCircle = circle(0, 0, 16, 10, 6)
+    bottomCircle = circle(0, 0, 1, 0, -5)
 
-# Diamant v4 :
-shinyCircle = circle(0, 0, 8, 3, 9)
-topCircle = circle(0, 0, 8, 7, 8)
-middleCircle = circle(0, 0, 16, 10, 6)
-bottomCircle = circle(0, 0, 1, 0, -5)
+    if True:  # si on veut le diamant v4 turn this to true
+        topCircle = circle(0, 0, 16, 7, 8)
+        topCircleBis = []
+        for i in range(len(topCircle)):
+            if i % 2 != 0:
+                topCircleBis.append(topCircle[i])
+        topCircle = topCircleBis
 
-if True:  # si on veut le diamant v4 turn this to true
-    topCircle = circle(0, 0, 16, 7, 8)
-    topCircleBis = []
-    for i in range(len(topCircle)):
-        if i % 2 != 0:
-            topCircleBis.append(topCircle[i])
-    topCircle = topCircleBis
+    # Goutte
+    # topCircle = circle(0, 0, 1, 0, 12)
+    # middleCircle = circle(0, 0, 5, 4, 2)
+    # bottomCircle = circle(0, 0, 1, 0, 0)
 
-# Goutte
-# topCircle = circle(0, 0, 1, 0, 12)
-# middleCircle = circle(0, 0, 5, 4, 2)
-# bottomCircle = circle(0, 0, 1, 0, 0)
+    verticies = []
+    for x in bottomCircle:
+        verticies.append(x)
+    for x in middleCircle:
+        verticies.append(x)
+    for x in topCircle:
+        verticies.append(x)
+    for x in shinyCircle:
+        verticies.append(x)
 
-verticies = []
-for x in bottomCircle:
-    verticies.append(x)
-for x in middleCircle:
-    verticies.append(x)
-for x in topCircle:
-    verticies.append(x)
-for x in shinyCircle:
-    verticies.append(x)
+    nbBottomPts = 1
+    nbMiddlePts = len(middleCircle)
+    nbTopPts = len(topCircle)
+    nbShinyPts = len(shinyCircle)
 
-nbBottomPts = 1
-nbMiddlePts = len(middleCircle)
-nbTopPts = len(topCircle)
-nbShinyPts = len(shinyCircle)
+    edges = []
 
-edges = []
-
-# Point du bas vers le milieu
-for x in range(nbMiddlePts + 1):
-    edges.append([0, x])
-
-# Couronne du milieu
-for x in range(1, nbMiddlePts):
-    edges.append([x, x + 1])
-edges.append([1, nbMiddlePts])
-
-# Couronne du haut
-for x in range(1, nbTopPts):
-    edges.append([nbMiddlePts + x, nbMiddlePts + x + 1])
-edges.append([nbMiddlePts + 1, nbMiddlePts + nbTopPts])
-
-# Couronne supplémentaire du diamant v3
-for x in range(1, nbShinyPts):
-    edges.append([nbMiddlePts + nbTopPts + x, nbMiddlePts + nbTopPts + x + 1])
-edges.append([nbMiddlePts + nbTopPts + 1, nbMiddlePts + nbTopPts + nbShinyPts])
-
-# Milieu vers le haut
-if nbMiddlePts == nbTopPts:  # Même nombre de points
-    for x in range(1, nbMiddlePts + 1):
-        edges.append([x, nbMiddlePts + x])
-
-# elif nbMiddlePts == nbTopPts * 2:  # Deux fois plus de points au milieu avec espacement base
-#     temp = 1
-#     for x in range(1, nbTopPts + 1):
-#         edges.append([temp, nbMiddlePts + x])
-#         edges.append([temp + 1, nbMiddlePts + x])
-#         temp = temp + 2
-
-elif nbMiddlePts == nbTopPts * 2:  # Deux fois plus de points au milieu sans espacements base
-    temp = 1
-    for x in range(1, nbTopPts + 1):
-        edges.append([temp, nbMiddlePts + x])
-        edges.append([temp + 1, nbMiddlePts + x])
-        edges.append([temp + 2, nbMiddlePts + x])
-        temp = temp + 2
-    edges.append([temp + nbTopPts - 1, 1])
-
-
-
-elif nbMiddlePts == nbTopPts * 3:  # trois fois plus de points au milieu
-    temp = 0
-    for x in range(1, nbTopPts + 1):
-        if temp == 0:
-            edges.append([nbMiddlePts + (x - 1), nbMiddlePts + x])
-        else:
-            edges.append([temp, nbMiddlePts + x])
-        edges.append([temp + 1, nbMiddlePts + x])
-        edges.append([temp + 2, nbMiddlePts + x])
-        temp = temp + 3
-
-# from top to shiny avec points séparé
-# if nbShinyPts == nbTopPts:  # Même nombre de points
-#     for x in range(1, nbShinyPts + 1):
-#         edges.append([nbMiddlePts + x, nbMiddlePts + nbTopPts + x])
-
-# from top to shiny avec points collé
-if nbShinyPts == nbTopPts:  # Même nombre de points
-    for x in range(1, nbShinyPts + 1):
-        if x != 1:
-            edges.append([nbMiddlePts + x - 1, nbMiddlePts + nbTopPts + x])
-        edges.append([nbMiddlePts + x, nbMiddlePts + nbTopPts + x])
-    edges.append([nbMiddlePts + nbShinyPts +1, nbMiddlePts + nbTopPts ])
-
-
-elif nbMiddlePts + nbTopPts == nbShinyPts * 2:  # Deux fois plus de points au milieu
-    temp = 1
-    for x in range(1, nbShinyPts + 1):
-        edges.append([temp, nbMiddlePts + nbTopPts + x])
-        edges.append([temp + 1, nbMiddlePts + nbTopPts + x])
-        temp = temp + 2
-
-# Un seul point du haut
-elif nbTopPts == 1:
+    # Point du bas vers le milieu
     for x in range(nbMiddlePts + 1):
-        edges.append([x, nbMiddlePts + 1])
+        edges.append([0, x])
+
+    # Couronne du milieu
+    for x in range(1, nbMiddlePts):
+        edges.append([x, x + 1])
+    edges.append([1, nbMiddlePts])
+
+    # Couronne du haut
+    for x in range(1, nbTopPts):
+        edges.append([nbMiddlePts + x, nbMiddlePts + x + 1])
+    edges.append([nbMiddlePts + 1, nbMiddlePts + nbTopPts])
+
+    # Couronne supplémentaire du diamant v3
+    for x in range(1, nbShinyPts):
+        edges.append([nbMiddlePts + nbTopPts + x, nbMiddlePts + nbTopPts + x + 1])
+    edges.append([nbMiddlePts + nbTopPts + 1, nbMiddlePts + nbTopPts + nbShinyPts])
+
+    # Milieu vers le haut
+    if nbMiddlePts == nbTopPts:  # Même nombre de points
+        for x in range(1, nbMiddlePts + 1):
+            edges.append([x, nbMiddlePts + x])
+
+    # elif nbMiddlePts == nbTopPts * 2:  # Deux fois plus de points au milieu avec espacement base
+    #     temp = 1
+    #     for x in range(1, nbTopPts + 1):
+    #         edges.append([temp, nbMiddlePts + x])
+    #         edges.append([temp + 1, nbMiddlePts + x])
+    #         temp = temp + 2
+
+    elif nbMiddlePts == nbTopPts * 2:  # Deux fois plus de points au milieu sans espacements base
+        temp = 1
+        for x in range(1, nbTopPts + 1):
+            edges.append([temp, nbMiddlePts + x])
+            edges.append([temp + 1, nbMiddlePts + x])
+            edges.append([temp + 2, nbMiddlePts + x])
+            temp = temp + 2
+        edges.append([temp + nbTopPts - 1, 1])
 
 
-# Trying some stuff with colors :
-colors = (
-    (0, 0, 1, 0),
-    (1, 1, 1, 0),
-    (0, 1, 1, 0),
-    (0, 1, 1, 0),
-    (0, 0, 1, 0),
-    (0, 0, 1, 0),
-    (1, 1, 1, 0),
-    (0, 1, 0.7, 0),
-    (0, 1, 1, 0),
-    )
 
-surfaces = []
-for x in range(1, nbMiddlePts):
-    surfaces.append([0, x, x + 1])
-surfaces.append([0, nbMiddlePts, 1])
+    elif nbMiddlePts == nbTopPts * 3:  # trois fois plus de points au milieu
+        temp = 0
+        for x in range(1, nbTopPts + 1):
+            if temp == 0:
+                edges.append([nbMiddlePts + (x - 1), nbMiddlePts + x])
+            else:
+                edges.append([temp, nbMiddlePts + x])
+            edges.append([temp + 1, nbMiddlePts + x])
+            edges.append([temp + 2, nbMiddlePts + x])
+            temp = temp + 3
 
-compt = 1
-for x in range(1, nbTopPts):
-    surfaces.append([compt, compt+1, x + nbMiddlePts])
-    surfaces.append([compt+1, compt+2, x + nbMiddlePts])
-    compt = compt+2
-surfaces.append([compt, compt+1, nbMiddlePts + nbTopPts])
-surfaces.append([compt+1, 1, nbMiddlePts + nbTopPts])
+    # from top to shiny avec points séparé
+    # if nbShinyPts == nbTopPts:  # Même nombre de points
+    #     for x in range(1, nbShinyPts + 1):
+    #         edges.append([nbMiddlePts + x, nbMiddlePts + nbTopPts + x])
 
-surfaces.append([1, nbMiddlePts + nbTopPts, nbMiddlePts + 1])
-compt = 3
-for x in range(1, nbTopPts):
-    surfaces.append([compt, x + nbMiddlePts, x + nbMiddlePts + 1])
-    compt = compt+2
+    # from top to shiny avec points collé
+    if nbShinyPts == nbTopPts:  # Même nombre de points
+        for x in range(1, nbShinyPts + 1):
+            if x != 1:
+                edges.append([nbMiddlePts + x - 1, nbMiddlePts + nbTopPts + x])
+            edges.append([nbMiddlePts + x, nbMiddlePts + nbTopPts + x])
+        edges.append([nbMiddlePts + nbShinyPts +1, nbMiddlePts + nbTopPts ])
 
-for x in range(1, nbTopPts):
-    surfaces.append([x + nbMiddlePts, x + nbMiddlePts + 1, x + nbMiddlePts + nbTopPts + 1])
-surfaces.append([nbMiddlePts + nbTopPts, nbMiddlePts + 1, nbMiddlePts + nbTopPts + 1])
 
-for x in range(1, nbTopPts):
-    surfaces.append([x + nbMiddlePts, x + nbMiddlePts + nbTopPts, x + nbMiddlePts + nbTopPts + 1])
-surfaces.append([nbMiddlePts + nbTopPts + nbShinyPts, nbMiddlePts + nbTopPts + 1, nbMiddlePts + nbTopPts])
+    elif nbMiddlePts + nbTopPts == nbShinyPts * 2:  # Deux fois plus de points au milieu
+        temp = 1
+        for x in range(1, nbShinyPts + 1):
+            edges.append([temp, nbMiddlePts + nbTopPts + x])
+            edges.append([temp + 1, nbMiddlePts + nbTopPts + x])
+            temp = temp + 2
+
+    # Un seul point du haut
+    elif nbTopPts == 1:
+        for x in range(nbMiddlePts + 1):
+            edges.append([x, nbMiddlePts + 1])
+
+
+    # Trying some stuff with colors :
+    colors = (
+        (0, 0, 1, 0),
+        (1, 1, 1, 0),
+        (0, 1, 1, 0),
+        (0, 1, 1, 0),
+        (0, 0, 1, 0),
+        (0, 0, 1, 0),
+        (1, 1, 1, 0),
+        (0, 1, 0.7, 0),
+        (0, 1, 1, 0),
+        )
+
+    surfaces = []
+    for x in range(1, nbMiddlePts):
+        surfaces.append([0, x, x + 1])
+    surfaces.append([0, nbMiddlePts, 1])
+
+    compt = 1
+    for x in range(1, nbTopPts):
+        surfaces.append([compt, compt+1, x + nbMiddlePts])
+        surfaces.append([compt+1, compt+2, x + nbMiddlePts])
+        compt = compt+2
+    surfaces.append([compt, compt+1, nbMiddlePts + nbTopPts])
+    surfaces.append([compt+1, 1, nbMiddlePts + nbTopPts])
+
+    surfaces.append([1, nbMiddlePts + nbTopPts, nbMiddlePts + 1])
+    compt = 3
+    for x in range(1, nbTopPts):
+        surfaces.append([compt, x + nbMiddlePts, x + nbMiddlePts + 1])
+        compt = compt+2
+
+    for x in range(1, nbTopPts):
+        surfaces.append([x + nbMiddlePts, x + nbMiddlePts + 1, x + nbMiddlePts + nbTopPts + 1])
+    surfaces.append([nbMiddlePts + nbTopPts, nbMiddlePts + 1, nbMiddlePts + nbTopPts + 1])
+
+    for x in range(1, nbTopPts):
+        surfaces.append([x + nbMiddlePts, x + nbMiddlePts + nbTopPts, x + nbMiddlePts + nbTopPts + 1])
+    surfaces.append([nbMiddlePts + nbTopPts + nbShinyPts, nbMiddlePts + nbTopPts + 1, nbMiddlePts + nbTopPts])
+
+    return [surfaces, colors, verticies, edges, middleCircle, topCircle, shinyCircle]
 
 
 # def Cube():
@@ -206,7 +208,17 @@ surfaces.append([nbMiddlePts + nbTopPts + nbShinyPts, nbMiddlePts + nbTopPts + 1
 #             glVertex3fv(verticies[vertex])
 #     glEnd()
 
-def Cube(x):
+
+diamond = createDiamond(4)
+def Cube(x, diamond):
+    surfaces = diamond[0]
+    colors = diamond[1]
+    verticies = diamond[2]
+    nbShinyPts = len(diamond[6])
+    nbMiddlePts = len(diamond[4])
+    nbTopPts = len(diamond[5])
+    edges = diamond[3]
+
     glBegin(GL_TRIANGLES)
     for surface in surfaces:
         for vertex in surface:
@@ -296,7 +308,7 @@ def main():
             glTranslatef(0, 0, -1)
         if keypress[pygame.K_F6]:
             glTranslatef(0, 0, 1)
-        Cube(x)
+        Cube(x,diamond)
         # Ground
         glColor4f(0.5, 0.5, 0.5, 1)
         glBegin(GL_QUADS)
