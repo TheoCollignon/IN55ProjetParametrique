@@ -8,43 +8,41 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-
 colorsBlue = (
-        (0, 0, 1, 0),
-        (0.7, 0.7, 1, 0),
-        (0, 1, 1, 0),
-        (0, 1, 1, 0),
-        (0, 0, 1, 0),
-        (0, 0, 1, 0),
-        (0.2, 0.2, 0.7, 0),
-        (0, 1, 0.7, 0),
-        (0, 1, 1, 0),
-    )
+    (0, 0, 1, 0),
+    (0.7, 0.7, 1, 0),
+    (0, 1, 1, 0),
+    (0, 1, 1, 0),
+    (0, 0, 1, 0),
+    (0, 0, 1, 0),
+    (0.2, 0.2, 0.7, 0),
+    (0, 1, 0.7, 0),
+    (0, 1, 1, 0),
+)
 
 colorsRed = (
-        (0.9, 0.2, 0, 0),
-        (0.8, 0.5, 0, 0),
-        (1, 0, 0, 0),
-        (1, 0, 0, 0),
-        (0.9, 0.2, 0, 0),
-        (1, 0.5, 0, 0),
-        (0.8, 0.6, 0.3, 1),
-        (1, 0.5, 0.2, 0),
-        (1, 0.2, 0.2, 0),
-    )
+    (0.9, 0.2, 0, 0),
+    (0.8, 0.5, 0, 0),
+    (1, 0, 0, 0),
+    (1, 0, 0, 0),
+    (0.9, 0.2, 0, 0),
+    (1, 0.5, 0, 0),
+    (0.8, 0.6, 0.3, 1),
+    (1, 0.5, 0.2, 0),
+    (1, 0.2, 0.2, 0),
+)
 
 colorsGreen = (
-        (0, 1, 1, 0),
-        (0.2, 0.7, 0.2, 0),
-        (0, 0.7, 0, 0),
-        (0, 1, 0, 0),
-        (0.2, 0.7, 0.2, 0),
-        (0, 0.7, 0, 0),
-        (0.5, 1, 0.5, 0),
-        (0, 1, 0.7, 0),
-        (0.3, 1, 0, 0),
-    )
-
+    (0, 1, 1, 0),
+    (0.2, 0.7, 0.2, 0),
+    (0, 0.7, 0, 0),
+    (0, 1, 0, 0),
+    (0.2, 0.7, 0.2, 0),
+    (0, 0.7, 0, 0),
+    (0.5, 1, 0.5, 0),
+    (0, 1, 0.7, 0),
+    (0.3, 1, 0, 0),
+)
 
 
 # xc et yc et zc = coordoonées du cercle // n le nombre de point répartit // r le rayon du cercle
@@ -63,35 +61,47 @@ def circle(xc, yc, n, r, zc):
     return listCoord
 
 
-def createDiamond(diamond):
+def createDiamond(diamond, listCoeff, listBool):
+    height = listBool[0]
+    rayonBottom = listBool[1]
+    rayonMiddle = listBool[2]
+    rayonTop = listBool[3]
+    rayonShiny = listBool[4]
+
+    coeffHeight = listCoeff[0]
+    coeffRayonBottom = listCoeff[1]
+    coeffRayonMiddle = listCoeff[2]
+    coeffRayonTop = listCoeff[3]
+    coeffRayonShiny = listCoeff[4]
+
     # Diamant v1 :
     if diamond == 1:
-        topCircle = circle(0, 0, 6, 3, 8)
-        middleCircle = circle(0, 0, 6, 6, 6)
-        bottomCircle = circle(0, 0, 1, 0, 0)
+        topCircle = circle(0, 0, 6, 3 * (coeffRayonTop + 1), 6 * (coeffHeight + 1))
+        middleCircle = circle(0, 0, 6, 6 * (coeffRayonMiddle + 1), 4 * (coeffHeight + 1))
+        bottomCircle = circle(0, 0, 1, 0 * (coeffRayonBottom + 1), -2 * (coeffHeight + 1))
         shinyCircle = []
 
     # Diamant v2 :
     if diamond == 2:
         shinyCircle = []
-        topCircle = circle(0, 0, 6, 3, 8)
-        middleCircle = circle(0, 0, 12, 6, 6)
-        bottomCircle = circle(0, 0, 1, 0, 0)
+        topCircle = circle(0, 0, 6, 3 * (coeffRayonTop + 1), 6 * (coeffHeight + 1))
+        middleCircle = circle(0, 0, 12, 6 * (coeffRayonMiddle + 1), 4 * (coeffHeight + 1))
+        bottomCircle = circle(0, 0, 1, 0 * (coeffRayonBottom + 1), -2 * (coeffHeight + 1))
 
     # Diamant v3 :
     if diamond == 3:
-        shinyCircle = circle(0, 0, 9, 3, 9)
-        topCircle = circle(0, 0, 9, 7, 8)
-        middleCircle = circle(0, 0, 18, 10, 6)
-        bottomCircle = circle(0, 0, 1, 0, -5)
+        shinyCircle = circle(0, 0, 9, 3 * (coeffRayonShiny + 1), 9 * (coeffHeight + 1))
+        topCircle = circle(0, 0, 9, 7 * (coeffRayonTop + 1), 8 * (coeffHeight + 1))
+        middleCircle = circle(0, 0, 18, 10 * (coeffRayonMiddle + 1), 6 * (coeffHeight + 1))
+        bottomCircle = circle(0, 0, 1, 0 * (coeffRayonBottom + 1), -5 * (coeffHeight + 1))
 
     if diamond == 4:
         # Diamant v4 :
-        shinyCircle = circle(0, 0, 8, 3, 9)
-        middleCircle = circle(0, 0, 16, 10, 6)
-        bottomCircle = circle(0, 0, 1, 0, -5)
+        shinyCircle = circle(0, 0, 8, 3 * (coeffRayonShiny + 1), 9 * (coeffHeight + 1))
+        topCircle = circle(0, 0, 16, 7 * (coeffRayonTop + 1), 8 * (coeffHeight + 1))
+        middleCircle = circle(0, 0, 16, 10 * (coeffRayonMiddle + 1), 6 * (coeffHeight + 1))
+        bottomCircle = circle(0, 0, 1, 0 * (coeffRayonBottom + 1), -5 * (coeffHeight + 1))
 
-        topCircle = circle(0, 0, 16, 7, 8)
         topCircleBis = []
         for i in range(len(topCircle)):
             if i % 2 != 0:
@@ -135,7 +145,7 @@ def createDiamond(diamond):
     edges.append([nbMiddlePts + 1, nbMiddlePts + nbTopPts])
 
     # Couronne supplémentaire du diamant v3
-    if diamond >= 3 :
+    if diamond >= 3:
         for x in range(1, nbShinyPts):
             edges.append([nbMiddlePts + nbTopPts + x, nbMiddlePts + nbTopPts + x + 1])
         edges.append([nbMiddlePts + nbTopPts + 1, nbMiddlePts + nbTopPts + nbShinyPts])
@@ -228,11 +238,10 @@ def createDiamond(diamond):
         compt = 1
         for x in range(1, nbTopPts):
             surfaces.append([compt, compt + 1, x + nbMiddlePts])
-            surfaces.append([x + nbMiddlePts, x + nbMiddlePts + 1, compt+1])
+            surfaces.append([x + nbMiddlePts, x + nbMiddlePts + 1, compt + 1])
             compt = compt + 1
-        surfaces.append([nbMiddlePts + nbTopPts, nbMiddlePts+1, compt])
-        surfaces.append([1,nbMiddlePts ,nbMiddlePts +1])
-
+        surfaces.append([nbMiddlePts + nbTopPts, nbMiddlePts + 1, compt])
+        surfaces.append([1, nbMiddlePts, nbMiddlePts + 1])
 
     if diamond == 2:
         compt = 1
@@ -250,11 +259,7 @@ def createDiamond(diamond):
             compt = compt + 2
         # top circle
 
-
-
-
-
-    if diamond > 2 :
+    if diamond > 2:
 
         compt = 1
         for x in range(1, nbTopPts):
@@ -274,7 +279,6 @@ def createDiamond(diamond):
             surfaces.append([x + nbMiddlePts, x + nbMiddlePts + 1, x + nbMiddlePts + nbTopPts + 1])
         surfaces.append([nbMiddlePts + nbTopPts, nbMiddlePts + 1, nbMiddlePts + nbTopPts + 1])
 
-
         for x in range(1, nbTopPts):
             surfaces.append([x + nbMiddlePts, x + nbMiddlePts + nbTopPts, x + nbMiddlePts + nbTopPts + 1])
         surfaces.append([nbMiddlePts + nbTopPts + nbShinyPts, nbMiddlePts + nbTopPts + 1, nbMiddlePts + nbTopPts])
@@ -288,8 +292,6 @@ def createDiamond(diamond):
 #         for vertex in edge:
 #             glVertex3fv(verticies[vertex])
 #     glEnd()
-
-
 
 
 def Cube(x, diamond, colors):
@@ -314,12 +316,12 @@ def Cube(x, diamond, colors):
     # Make the circle on the top of the diamond
     glBegin(GL_POLYGON)
     circlePts = []
-    if diamond[7] >= 3 :
+    if diamond[7] >= 3:
         for x in range(nbShinyPts):
             circlePts.append(nbMiddlePts + nbTopPts + x + 1)
         for pointCircle in circlePts:
             glVertex3fv(verticies[pointCircle])
-    else :
+    else:
         for x in range(nbTopPts):
             circlePts.append(nbMiddlePts + x + 1)
         for pointCircle in circlePts:
@@ -345,9 +347,12 @@ def main():
 
     glTranslatef(0.0, 0.0, -40)
     x = random.randint(1, 10)
-    transparency = True
+    rayonBottom, rayonMiddle, rayonTop, rayonShiny, transparency, height = False, False, False, False, True, True
+    coeffRayonBottom, coeffRayonMiddle, coeffRayonTop, coeffRayonShiny, coeffHeight = 0, 0, 0, 0, 0
+    print(rayonBottom)
     glPushMatrix()
-    diamond = createDiamond(4)
+    diamond = createDiamond(4, [0, 0, 0, 0, 0], [True, False, False, False, False])
+    diamondNumber = 4
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -363,20 +368,78 @@ def main():
                     glPushMatrix()
                 # display the right diamond
                 if event.key == pygame.K_1:
-                    diamond = createDiamond(1)
-                if event.key == pygame.K_2:
-                    diamond = createDiamond(2)
-                if event.key == pygame.K_3:
-                    diamond = createDiamond(3)
-                if event.key == pygame.K_4:
-                    diamond = createDiamond(4)
-                if event.key == pygame.K_r:
+                    diamondNumber = 1
+                elif event.key == pygame.K_2:
+                    diamondNumber = 2
+                elif event.key == pygame.K_3:
+                    diamondNumber = 3
+                elif event.key == pygame.K_4:
+                    diamondNumber = 4
+                elif event.key == pygame.K_r:
                     colors = colorsRed
-                if event.key == pygame.K_g:
+                elif event.key == pygame.K_g:
                     colors = colorsGreen
-                if event.key == pygame.K_b:
+                elif event.key == pygame.K_b:
                     colors = colorsBlue
+                elif event.key == pygame.K_h:
+                    height = True
+                    rayonBottom = False
+                    rayonMiddle = False
+                    rayonTop = False
+                    rayonShiny = False
+                elif event.key == pygame.K_KP1:
+                    height = False
+                    rayonBottom = True
+                    rayonMiddle = False
+                    rayonTop = False
+                    rayonShiny = False
+                elif event.key == pygame.K_KP2:
+                    height = False
+                    rayonBottom = False
+                    rayonMiddle = True
+                    rayonTop = False
+                    rayonShiny = False
+                elif event.key == pygame.K_KP3:
+                    height = False
+                    rayonBottom = False
+                    rayonMiddle = False
+                    rayonTop = True
+                    rayonShiny = False
+                elif event.key == pygame.K_KP4:
+                    height = False
+                    rayonBottom = False
+                    rayonMiddle = False
+                    rayonTop = False
+                    if diamondNumber >=3:
+                        rayonShiny = True
 
+
+                if event.key == pygame.K_KP_PLUS:
+                    if height:
+                        coeffHeight += 0.1
+                    elif rayonBottom:
+                        coeffRayonBottom += 0.1
+                    elif rayonMiddle:
+                        coeffRayonMiddle += 0.1
+                    elif rayonTop:
+                        coeffRayonTop += 0.1
+                    elif rayonShiny:
+                        coeffRayonShiny += 0.1
+                elif event.key == pygame.K_KP_MINUS:
+                    if height:
+                        coeffHeight -= 0.1
+                    elif rayonBottom:
+                        coeffRayonBottom -= 0.1
+                    elif rayonMiddle:
+                        coeffRayonMiddle -= 0.1
+                    elif rayonTop:
+                        coeffRayonTop -= 0.1
+                    elif rayonShiny:
+                        coeffRayonShiny -= 0.1
+
+        rayonBool = [height, rayonBottom, rayonMiddle, rayonTop, rayonShiny]
+        coeffs = [coeffHeight, coeffRayonBottom, coeffRayonMiddle, coeffRayonTop, coeffRayonShiny]
+        diamond = createDiamond(diamondNumber, coeffs, rayonBool)
         if transparency:
             glEnable(GL_DEPTH_TEST)
         else:
@@ -406,14 +469,14 @@ def main():
             glTranslatef(0, 0, -1)
         if keypress[pygame.K_F6]:
             glTranslatef(0, 0, 1)
-        Cube(x, diamond, colors )
+        Cube(x, diamond, colors)
         # Ground
         glColor4f(0.5, 0.5, 0.5, 1)
         glBegin(GL_QUADS)
-        glVertex3f(-30, -30, -5)
-        glVertex3f(30, -30, -5)
-        glVertex3f(30, 30, -5)
-        glVertex3f(-30, 30, -5)
+        glVertex3f(-30, -30, -5 * (1 + coeffHeight))
+        glVertex3f(30, -30, -5 * (1 + coeffHeight))
+        glVertex3f(30, 30, -5 * (1 + coeffHeight))
+        glVertex3f(-30, 30, -5 * (1 + coeffHeight))
         glEnd()
         # Ground
         pygame.display.flip()
