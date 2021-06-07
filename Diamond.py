@@ -5,7 +5,6 @@ import math
 
 from pygame.locals import *
 
-
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
@@ -25,30 +24,35 @@ def circle(xc, yc, n, r, zc):
 
     return listCoord
 
+
 def createDiamond(diamond):
     # Diamant v1 :
-    # topCircle = circle(0, 0, 6, 3, 8)
-    # middleCircle = circle(0, 0, 6, 6, 6)
-    # bottomCircle = circle(0, 0, 1, 0, 0)
+    if diamond == 1:
+        topCircle = circle(0, 0, 6, 3, 8)
+        middleCircle = circle(0, 0, 6, 6, 6)
+        bottomCircle = circle(0, 0, 1, 0, 0)
+        shinyCircle = []
 
     # Diamant v2 :
-    # topCircle = circle(0, 0, 6, 3, 8)
-    # middleCircle = circle(0, 0, 12, 6, 6)
-    # bottomCircle = circle(0, 0, 1, 0, 0)
+    if diamond == 2:
+        shinyCircle = []
+        topCircle = circle(0, 0, 6, 3, 8)
+        middleCircle = circle(0, 0, 12, 6, 6)
+        bottomCircle = circle(0, 0, 1, 0, 0)
 
     # Diamant v3 :
-    # shinyCircle = circle(0, 0, 9, 3, 9)
-    # topCircle = circle(0, 0, 9, 7, 8)
-    # middleCircle = circle(0, 0, 18, 10, 6)
-    # bottomCircle = circle(0, 0, 1, 0, -5)
+    if diamond == 3:
+        shinyCircle = circle(0, 0, 9, 3, 9)
+        topCircle = circle(0, 0, 9, 7, 8)
+        middleCircle = circle(0, 0, 18, 10, 6)
+        bottomCircle = circle(0, 0, 1, 0, -5)
 
-    # Diamant v4 :
-    shinyCircle = circle(0, 0, 8, 3, 9)
-    topCircle = circle(0, 0, 8, 7, 8)
-    middleCircle = circle(0, 0, 16, 10, 6)
-    bottomCircle = circle(0, 0, 1, 0, -5)
+    if diamond == 4:
+        # Diamant v4 :
+        shinyCircle = circle(0, 0, 8, 3, 9)
+        middleCircle = circle(0, 0, 16, 10, 6)
+        bottomCircle = circle(0, 0, 1, 0, -5)
 
-    if True:  # si on veut le diamant v4 turn this to true
         topCircle = circle(0, 0, 16, 7, 8)
         topCircleBis = []
         for i in range(len(topCircle)):
@@ -142,7 +146,7 @@ def createDiamond(diamond):
             if x != 1:
                 edges.append([nbMiddlePts + x - 1, nbMiddlePts + nbTopPts + x])
             edges.append([nbMiddlePts + x, nbMiddlePts + nbTopPts + x])
-        edges.append([nbMiddlePts + nbShinyPts +1, nbMiddlePts + nbTopPts ])
+        edges.append([nbMiddlePts + nbShinyPts + 1, nbMiddlePts + nbTopPts])
 
 
     elif nbMiddlePts + nbTopPts == nbShinyPts * 2:  # Deux fois plus de points au milieu
@@ -157,7 +161,6 @@ def createDiamond(diamond):
         for x in range(nbMiddlePts + 1):
             edges.append([x, nbMiddlePts + 1])
 
-
     # Trying some stuff with colors :
     colors = (
         (0, 0, 1, 0),
@@ -169,7 +172,7 @@ def createDiamond(diamond):
         (1, 1, 1, 0),
         (0, 1, 0.7, 0),
         (0, 1, 1, 0),
-        )
+    )
 
     surfaces = []
     for x in range(1, nbMiddlePts):
@@ -178,17 +181,17 @@ def createDiamond(diamond):
 
     compt = 1
     for x in range(1, nbTopPts):
-        surfaces.append([compt, compt+1, x + nbMiddlePts])
-        surfaces.append([compt+1, compt+2, x + nbMiddlePts])
-        compt = compt+2
-    surfaces.append([compt, compt+1, nbMiddlePts + nbTopPts])
-    surfaces.append([compt+1, 1, nbMiddlePts + nbTopPts])
+        surfaces.append([compt, compt + 1, x + nbMiddlePts])
+        surfaces.append([compt + 1, compt + 2, x + nbMiddlePts])
+        compt = compt + 2
+    surfaces.append([compt, compt + 1, nbMiddlePts + nbTopPts])
+    surfaces.append([compt + 1, 1, nbMiddlePts + nbTopPts])
 
     surfaces.append([1, nbMiddlePts + nbTopPts, nbMiddlePts + 1])
     compt = 3
     for x in range(1, nbTopPts):
         surfaces.append([compt, x + nbMiddlePts, x + nbMiddlePts + 1])
-        compt = compt+2
+        compt = compt + 2
 
     for x in range(1, nbTopPts):
         surfaces.append([x + nbMiddlePts, x + nbMiddlePts + 1, x + nbMiddlePts + nbTopPts + 1])
@@ -209,7 +212,8 @@ def createDiamond(diamond):
 #     glEnd()
 
 
-diamond = createDiamond(4)
+
+
 def Cube(x, diamond):
     surfaces = diamond[0]
     colors = diamond[1]
@@ -222,10 +226,10 @@ def Cube(x, diamond):
     glBegin(GL_TRIANGLES)
     for surface in surfaces:
         for vertex in surface:
-            x = (x+1)%9
+            x = (x + 1) % 9
             y = colors[x]
 
-            glColor4f(y[0],y[1],y[2],y[3])
+            glColor4f(y[0], y[1], y[2], y[3])
             glVertex3fv(verticies[vertex])
 
     glEnd()
@@ -234,13 +238,10 @@ def Cube(x, diamond):
     glBegin(GL_POLYGON)
     circlePts = []
     for x in range(nbShinyPts):
-        circlePts.append(nbMiddlePts + nbTopPts + x +1)
+        circlePts.append(nbMiddlePts + nbTopPts + x + 1)
     for pointCircle in circlePts:
         glVertex3fv(verticies[pointCircle])
     glEnd()
-
-
-
 
     glBegin(GL_LINES)
     for edge in edges:
@@ -248,12 +249,13 @@ def Cube(x, diamond):
             glVertex3fv(verticies[vertex])
     glEnd()
 
+
 def main():
     pygame.init()
     display = (800, 600)
-    pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
+    pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
 
-    gluPerspective(45, (display[0]/display[1]), 0.1, 70.0)
+    gluPerspective(45, (display[0] / display[1]), 0.1, 70.0)
     # allow to enable, or disable the tranparency
     # glEnable(GL_DEPTH_TEST)
 
@@ -261,6 +263,7 @@ def main():
     x = random.randint(1, 10)
     transparency = True
     glPushMatrix()
+    diamond = createDiamond(4)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -274,17 +277,22 @@ def main():
                     glPushMatrix()
                 if event.key == pygame.K_s:
                     glPushMatrix()
-                if event.key == pygame.K_KP_PLUS:
-                    glTranslatef(0.0, 0.0, -1)
-                if event.key == pygame.K_KP_MINUS:
-                    glTranslatef(0.0, 0.0, 1)
+                # display the right diamond
+                if event.key == pygame.K_1:
+                    diamond = createDiamond(1)
+                if event.key == pygame.K_2:
+                    diamond = createDiamond(2)
+                if event.key == pygame.K_3:
+                    diamond = createDiamond(3)
+                if event.key == pygame.K_4:
+                    diamond = createDiamond(4)
 
         if transparency:
             glEnable(GL_DEPTH_TEST)
         else:
             glDisable(GL_DEPTH_TEST)
-        #glRotatef(1, 3, 1, 1)
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+        # glRotatef(1, 3, 1, 1)
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         # get keys
         keypress = pygame.key.get_pressed()
         if keypress[pygame.K_UP]:
@@ -308,7 +316,7 @@ def main():
             glTranslatef(0, 0, -1)
         if keypress[pygame.K_F6]:
             glTranslatef(0, 0, 1)
-        Cube(x,diamond)
+        Cube(x, diamond)
         # Ground
         glColor4f(0.5, 0.5, 0.5, 1)
         glBegin(GL_QUADS)
@@ -320,7 +328,6 @@ def main():
         # Ground
         pygame.display.flip()
         pygame.time.wait(10)
-
 
 
 main()
