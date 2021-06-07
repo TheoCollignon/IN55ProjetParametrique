@@ -248,6 +248,7 @@ def main():
     glTranslatef(0.0, 0.0, -40)
     x = random.randint(1, 10)
     transparency = True
+    glPushMatrix()
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -256,21 +257,41 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_t:
                     transparency = not transparency
+                if event.key == pygame.K_r:
+                    glPopMatrix()
+                    glPushMatrix()
+                if event.key == pygame.K_s:
+                    glPushMatrix()
 
         if transparency:
             glEnable(GL_DEPTH_TEST)
         else:
             glDisable(GL_DEPTH_TEST)
-        glRotatef(1, 3, 1, 1)
+        #glRotatef(1, 3, 1, 1)
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
         # get keys
         keypress = pygame.key.get_pressed()
-        # if keypress[pygame.K_w]:
-        #     print("SALUT")
-
+        if keypress[pygame.K_UP]:
+            glRotatef(3, 1, 1, 1)
+        if keypress[pygame.K_RIGHT]:
+            glRotatef(1, 3, 1, 1)
+        if keypress[pygame.K_LEFT]:
+            glRotatef(1, -3, 1, 1)
+        if keypress[pygame.K_DOWN]:
+            glRotatef(1, 1, 1, 3)
         Cube(x)
+        # Ground
+        glColor4f(0.5, 0.5, 0.5, 1)
+        glBegin(GL_QUADS)
+        glVertex3f(-30, -30, -5)
+        glVertex3f(30, -30, -5)
+        glVertex3f(30, 30, -5)
+        glVertex3f(-30, 30, -5)
+        glEnd()
+        # Ground
         pygame.display.flip()
         pygame.time.wait(10)
+
 
 
 main()
