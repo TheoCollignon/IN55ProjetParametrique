@@ -97,9 +97,10 @@ def createDiamond(diamond):
     edges.append([nbMiddlePts + 1, nbMiddlePts + nbTopPts])
 
     # Couronne supplémentaire du diamant v3
-    for x in range(1, nbShinyPts):
-        edges.append([nbMiddlePts + nbTopPts + x, nbMiddlePts + nbTopPts + x + 1])
-    edges.append([nbMiddlePts + nbTopPts + 1, nbMiddlePts + nbTopPts + nbShinyPts])
+    if diamond >= 3 :
+        for x in range(1, nbShinyPts):
+            edges.append([nbMiddlePts + nbTopPts + x, nbMiddlePts + nbTopPts + x + 1])
+        edges.append([nbMiddlePts + nbTopPts + 1, nbMiddlePts + nbTopPts + nbShinyPts])
 
     # Milieu vers le haut
     if nbMiddlePts == nbTopPts:  # Même nombre de points
@@ -175,33 +176,72 @@ def createDiamond(diamond):
     )
 
     surfaces = []
+    # bot to mid
     for x in range(1, nbMiddlePts):
         surfaces.append([0, x, x + 1])
     surfaces.append([0, nbMiddlePts, 1])
 
-    compt = 1
-    for x in range(1, nbTopPts):
-        surfaces.append([compt, compt + 1, x + nbMiddlePts])
-        surfaces.append([compt + 1, compt + 2, x + nbMiddlePts])
-        compt = compt + 2
-    surfaces.append([compt, compt + 1, nbMiddlePts + nbTopPts])
-    surfaces.append([compt + 1, 1, nbMiddlePts + nbTopPts])
+    # edges
+    for x in range(1, nbMiddlePts):
+        surfaces.append([0, x, x + 1])
+    surfaces.append([0, nbMiddlePts, 1])
 
-    surfaces.append([1, nbMiddlePts + nbTopPts, nbMiddlePts + 1])
-    compt = 3
-    for x in range(1, nbTopPts):
-        surfaces.append([compt, x + nbMiddlePts, x + nbMiddlePts + 1])
-        compt = compt + 2
+    if diamond == 1:
+        compt = 1
+        for x in range(1, nbTopPts):
+            surfaces.append([compt, compt + 1, x + nbMiddlePts])
+            surfaces.append([x + nbMiddlePts, x + nbMiddlePts + 1, compt+1])
+            compt = compt + 1
+        surfaces.append([nbMiddlePts + nbTopPts, nbMiddlePts+1, compt])
+        surfaces.append([1,nbMiddlePts ,nbMiddlePts +1])
 
-    for x in range(1, nbTopPts):
-        surfaces.append([x + nbMiddlePts, x + nbMiddlePts + 1, x + nbMiddlePts + nbTopPts + 1])
-    surfaces.append([nbMiddlePts + nbTopPts, nbMiddlePts + 1, nbMiddlePts + nbTopPts + 1])
 
-    for x in range(1, nbTopPts):
-        surfaces.append([x + nbMiddlePts, x + nbMiddlePts + nbTopPts, x + nbMiddlePts + nbTopPts + 1])
-    surfaces.append([nbMiddlePts + nbTopPts + nbShinyPts, nbMiddlePts + nbTopPts + 1, nbMiddlePts + nbTopPts])
+    if diamond == 2:
+        compt = 1
+        for x in range(1, nbTopPts):
+            surfaces.append([compt, compt + 1, x + nbMiddlePts])
+            surfaces.append([compt + 1, compt + 2, x + nbMiddlePts])
+            compt = compt + 2
+        surfaces.append([compt, compt + 1, nbMiddlePts + nbTopPts])
+        surfaces.append([compt + 1, 1, nbMiddlePts + nbTopPts])
 
-    return [surfaces, colors, verticies, edges, middleCircle, topCircle, shinyCircle]
+        surfaces.append([1, nbMiddlePts + nbTopPts, nbMiddlePts + 1])
+        compt = 3
+        for x in range(1, nbTopPts):
+            surfaces.append([compt, x + nbMiddlePts, x + nbMiddlePts + 1])
+            compt = compt + 2
+        # top circle
+
+
+
+
+
+    if diamond > 2 :
+
+        compt = 1
+        for x in range(1, nbTopPts):
+            surfaces.append([compt, compt + 1, x + nbMiddlePts])
+            surfaces.append([compt + 1, compt + 2, x + nbMiddlePts])
+            compt = compt + 2
+        surfaces.append([compt, compt + 1, nbMiddlePts + nbTopPts])
+        surfaces.append([compt + 1, 1, nbMiddlePts + nbTopPts])
+
+        surfaces.append([1, nbMiddlePts + nbTopPts, nbMiddlePts + 1])
+        compt = 3
+        for x in range(1, nbTopPts):
+            surfaces.append([compt, x + nbMiddlePts, x + nbMiddlePts + 1])
+            compt = compt + 2
+
+        for x in range(1, nbTopPts):
+            surfaces.append([x + nbMiddlePts, x + nbMiddlePts + 1, x + nbMiddlePts + nbTopPts + 1])
+        surfaces.append([nbMiddlePts + nbTopPts, nbMiddlePts + 1, nbMiddlePts + nbTopPts + 1])
+
+
+        for x in range(1, nbTopPts):
+            surfaces.append([x + nbMiddlePts, x + nbMiddlePts + nbTopPts, x + nbMiddlePts + nbTopPts + 1])
+        surfaces.append([nbMiddlePts + nbTopPts + nbShinyPts, nbMiddlePts + nbTopPts + 1, nbMiddlePts + nbTopPts])
+    numberDiamond = diamond
+    return [surfaces, colors, verticies, edges, middleCircle, topCircle, shinyCircle, numberDiamond]
 
 
 # def Cube():
@@ -237,10 +277,17 @@ def Cube(x, diamond):
     # Make the circle on the top of the diamond
     glBegin(GL_POLYGON)
     circlePts = []
-    for x in range(nbShinyPts):
-        circlePts.append(nbMiddlePts + nbTopPts + x + 1)
-    for pointCircle in circlePts:
-        glVertex3fv(verticies[pointCircle])
+    if diamond[7] >= 3 :
+        for x in range(nbShinyPts):
+            circlePts.append(nbMiddlePts + nbTopPts + x + 1)
+        for pointCircle in circlePts:
+            glVertex3fv(verticies[pointCircle])
+    else :
+        for x in range(nbTopPts):
+            circlePts.append(nbMiddlePts + x + 1)
+        for pointCircle in circlePts:
+            glVertex3fv(verticies[pointCircle])
+
     glEnd()
 
     glBegin(GL_LINES)
