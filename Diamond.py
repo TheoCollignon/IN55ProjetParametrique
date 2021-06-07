@@ -262,6 +262,10 @@ def main():
                     glPushMatrix()
                 if event.key == pygame.K_s:
                     glPushMatrix()
+                if event.key == pygame.K_KP_PLUS:
+                    glTranslatef(0.0, 0.0, -1)
+                if event.key == pygame.K_KP_MINUS:
+                    glTranslatef(0.0, 0.0, 1)
 
         if transparency:
             glEnable(GL_DEPTH_TEST)
@@ -279,6 +283,19 @@ def main():
             glRotatef(1, -3, 1, 1)
         if keypress[pygame.K_DOWN]:
             glRotatef(1, 1, 1, 3)
+
+        if keypress[pygame.K_F1]:
+            glTranslatef(-1, 0, 0)
+        if keypress[pygame.K_F2]:
+            glTranslatef(1, 0, 0)
+        if keypress[pygame.K_F3]:
+            glTranslatef(0, -1, 0)
+        if keypress[pygame.K_F4]:
+            glTranslatef(0, 1, 0)
+        if keypress[pygame.K_F5]:
+            glTranslatef(0, 0, -1)
+        if keypress[pygame.K_F6]:
+            glTranslatef(0, 0, 1)
         Cube(x)
         # Ground
         glColor4f(0.5, 0.5, 0.5, 1)
