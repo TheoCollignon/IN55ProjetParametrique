@@ -9,6 +9,44 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 
 
+colorsBlue = (
+        (0, 0, 1, 0),
+        (0.7, 0.7, 1, 0),
+        (0, 1, 1, 0),
+        (0, 1, 1, 0),
+        (0, 0, 1, 0),
+        (0, 0, 1, 0),
+        (0.2, 0.2, 0.7, 0),
+        (0, 1, 0.7, 0),
+        (0, 1, 1, 0),
+    )
+
+colorsRed = (
+        (0.9, 0.2, 0, 0),
+        (0.8, 0.5, 0, 0),
+        (1, 0, 0, 0),
+        (1, 0, 0, 0),
+        (0.9, 0.2, 0, 0),
+        (1, 0.5, 0, 0),
+        (0.8, 0.6, 0.3, 1),
+        (1, 0.5, 0.2, 0),
+        (1, 0.2, 0.2, 0),
+    )
+
+colorsGreen = (
+        (0, 1, 1, 0),
+        (0.2, 0.7, 0.2, 0),
+        (0, 0.7, 0, 0),
+        (0, 1, 0, 0),
+        (0.2, 0.7, 0.2, 0),
+        (0, 0.7, 0, 0),
+        (0.5, 1, 0.5, 0),
+        (0, 1, 0.7, 0),
+        (0.3, 1, 0, 0),
+    )
+
+
+
 # xc et yc et zc = coordoonées du cercle // n le nombre de point répartit // r le rayon du cercle
 def circle(xc, yc, n, r, zc):
     listCoord = []
@@ -254,9 +292,8 @@ def createDiamond(diamond):
 
 
 
-def Cube(x, diamond):
+def Cube(x, diamond, colors):
     surfaces = diamond[0]
-    colors = diamond[1]
     verticies = diamond[2]
     nbShinyPts = len(diamond[6])
     nbMiddlePts = len(diamond[4])
@@ -301,7 +338,7 @@ def main():
     pygame.init()
     display = (800, 600)
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
-
+    colors = colorsBlue
     gluPerspective(45, (display[0] / display[1]), 0.1, 70.0)
     # allow to enable, or disable the tranparency
     # glEnable(GL_DEPTH_TEST)
@@ -319,7 +356,7 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_t:
                     transparency = not transparency
-                if event.key == pygame.K_r:
+                if event.key == pygame.K_ESCAPE:
                     glPopMatrix()
                     glPushMatrix()
                 if event.key == pygame.K_s:
@@ -333,6 +370,12 @@ def main():
                     diamond = createDiamond(3)
                 if event.key == pygame.K_4:
                     diamond = createDiamond(4)
+                if event.key == pygame.K_r:
+                    colors = colorsRed
+                if event.key == pygame.K_g:
+                    colors = colorsGreen
+                if event.key == pygame.K_b:
+                    colors = colorsBlue
 
         if transparency:
             glEnable(GL_DEPTH_TEST)
@@ -363,7 +406,7 @@ def main():
             glTranslatef(0, 0, -1)
         if keypress[pygame.K_F6]:
             glTranslatef(0, 0, 1)
-        Cube(x, diamond)
+        Cube(x, diamond, colors )
         # Ground
         glColor4f(0.5, 0.5, 0.5, 1)
         glBegin(GL_QUADS)
