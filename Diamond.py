@@ -243,18 +243,31 @@ def main():
 
     gluPerspective(45, (display[0]/display[1]), 0.1, 70.0)
     # allow to enable, or disable the tranparency
-    glEnable(GL_DEPTH_TEST)
+    # glEnable(GL_DEPTH_TEST)
 
     glTranslatef(0.0, 0.0, -40)
     x = random.randint(1, 10)
+    transparency = True
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_t:
+                    transparency = not transparency
 
+        if transparency:
+            glEnable(GL_DEPTH_TEST)
+        else:
+            glDisable(GL_DEPTH_TEST)
         glRotatef(1, 3, 1, 1)
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+        # get keys
+        keypress = pygame.key.get_pressed()
+        # if keypress[pygame.K_w]:
+        #     print("SALUT")
+
         Cube(x)
         pygame.display.flip()
         pygame.time.wait(10)
