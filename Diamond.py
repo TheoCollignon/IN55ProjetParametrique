@@ -67,33 +67,37 @@ def createDiamond(diamond, listCoeff, listBool):
     coeffRayonMiddle = listCoeff[2]
     coeffRayonTop = listCoeff[3]
     coeffRayonShiny = listCoeff[4]
+    addNbVerticies = listCoeff[5]
+
+    if addNbVerticies < -4:
+        addNbVerticies = -4
 
     # Diamant v1 :
     if diamond == 1:
-        topCircle = circle(0, 0, 6, 3 * (coeffRayonTop + 1), 6 * (coeffHeight + 1))
-        middleCircle = circle(0, 0, 6, 6 * (coeffRayonMiddle + 1), 4 * (coeffHeight + 1))
+        topCircle = circle(0, 0, 6 + addNbVerticies, 3 * (coeffRayonTop + 1), 6 * (coeffHeight + 1))
+        middleCircle = circle(0, 0, 6 + addNbVerticies, 6 * (coeffRayonMiddle + 1), 4 * (coeffHeight + 1))
         bottomCircle = circle(0, 0, 1, 0 * (coeffRayonBottom + 1), -2 * (coeffHeight + 1))
         shinyCircle = []
 
     # Diamant v2 :
     if diamond == 2:
         shinyCircle = []
-        topCircle = circle(0, 0, 6, 3 * (coeffRayonTop + 1), 6 * (coeffHeight + 1))
-        middleCircle = circle(0, 0, 12, 6 * (coeffRayonMiddle + 1), 4 * (coeffHeight + 1))
+        topCircle = circle(0, 0, 6 + addNbVerticies, 3 * (coeffRayonTop + 1), 6 * (coeffHeight + 1))
+        middleCircle = circle(0, 0, 12 + addNbVerticies*2, 6 * (coeffRayonMiddle + 1), 4 * (coeffHeight + 1))
         bottomCircle = circle(0, 0, 1, 0 * (coeffRayonBottom + 1), -2 * (coeffHeight + 1))
 
     # Diamant v3 :
     if diamond == 3:
-        shinyCircle = circle(0, 0, 9, 3 * (coeffRayonShiny + 1), 9 * (coeffHeight + 1))
-        topCircle = circle(0, 0, 9, 7 * (coeffRayonTop + 1), 8 * (coeffHeight + 1))
-        middleCircle = circle(0, 0, 18, 10 * (coeffRayonMiddle + 1), 6 * (coeffHeight + 1))
+        shinyCircle = circle(0, 0, 9 + addNbVerticies, 3 * (coeffRayonShiny + 1), 9 * (coeffHeight + 1))
+        topCircle = circle(0, 0, 9+ addNbVerticies, 7 * (coeffRayonTop + 1), 8 * (coeffHeight + 1))
+        middleCircle = circle(0, 0, 18 + addNbVerticies*2, 10 * (coeffRayonMiddle + 1), 6 * (coeffHeight + 1))
         bottomCircle = circle(0, 0, 1, 0 * (coeffRayonBottom + 1), -5 * (coeffHeight + 1))
 
     if diamond == 4:
         # Diamant v4 :
-        shinyCircle = circle(0, 0, 8, 3 * (coeffRayonShiny + 1), 9 * (coeffHeight + 1))
-        topCircle = circle(0, 0, 16, 7 * (coeffRayonTop + 1), 8 * (coeffHeight + 1))
-        middleCircle = circle(0, 0, 16, 10 * (coeffRayonMiddle + 1), 6 * (coeffHeight + 1))
+        shinyCircle = circle(0, 0, 8+ addNbVerticies, 3 * (coeffRayonShiny + 1), 9 * (coeffHeight + 1))
+        topCircle = circle(0, 0, 16 + addNbVerticies * 2 , 7 * (coeffRayonTop + 1), 8 * (coeffHeight + 1))
+        middleCircle = circle(0, 0, 16 + addNbVerticies * 2, 10 * (coeffRayonMiddle + 1), 6 * (coeffHeight + 1))
         bottomCircle = circle(0, 0, 1, 0 * (coeffRayonBottom + 1), -5 * (coeffHeight + 1))
 
         topCircleBis = []
@@ -106,7 +110,7 @@ def createDiamond(diamond, listCoeff, listBool):
     if diamond == 5:
         shinyCircle = []
         topCircle = circle(0, 0, 1, 0 * (coeffRayonShiny + 1), 7 * (coeffHeight + 1))
-        middleCircle = circle(0, 0, 5, 4 * (coeffRayonShiny + 1), -3 * (coeffHeight + 1))
+        middleCircle = circle(0, 0, 6 + addNbVerticies, 4 * (coeffRayonShiny + 1), -3 * (coeffHeight + 1))
         bottomCircle = circle(0, 0, 1, 0 * (coeffRayonShiny + 1), -5 * (coeffHeight + 1))
 
     verticies = []
@@ -284,7 +288,7 @@ def createDiamond(diamond, listCoeff, listBool):
         surfaces.append([max, nbMiddlePts, 1])
 
     numberDiamond = diamond
-    return [surfaces, colors, verticies, edges, middleCircle, topCircle, shinyCircle, numberDiamond]
+    return [surfaces, colors, verticies, edges, middleCircle, topCircle, shinyCircle, numberDiamond, addNbVerticies]
 
 
 # def Cube():
@@ -327,7 +331,6 @@ def Cube(x, diamond, colors):
             circlePts.append(nbMiddlePts + x + 1)
         for pointCircle in circlePts:
             glVertex3fv(verticies[pointCircle])
-
     glEnd()
 
     glBegin(GL_LINES)
@@ -348,11 +351,11 @@ def main():
 
     glTranslatef(0.0, 0.0, -40)
     x = random.randint(1, 10)
-    rayonBottom, rayonMiddle, rayonTop, rayonShiny, transparency, height = False, False, False, False, True, True
-    coeffRayonBottom, coeffRayonMiddle, coeffRayonTop, coeffRayonShiny, coeffHeight = 0, 0, 0, 0, 0
+    rayonBottom, rayonMiddle, rayonTop, rayonShiny, transparency, height, verticies = False, False, False, False, True, True, False
+    coeffRayonBottom, coeffRayonMiddle, coeffRayonTop, coeffRayonShiny, coeffHeight, addNbVerticies = 0, 0, 0, 0, 0, 0
     print(rayonBottom)
     glPushMatrix()
-    diamond = createDiamond(4, [0, 0, 0, 0, 0], [True, False, False, False, False])
+    diamond = createDiamond(4, [0, 0, 0, 0, 0, 0], [True, False, False, False, False, False])
     diamondNumber = 4
     while True:
         for event in pygame.event.get():
@@ -390,31 +393,45 @@ def main():
                     rayonMiddle = False
                     rayonTop = False
                     rayonShiny = False
+                    verticies = False
                 elif event.key == pygame.K_KP1:
                     height = False
                     rayonBottom = True
                     rayonMiddle = False
                     rayonTop = False
                     rayonShiny = False
+                    verticies = False
                 elif event.key == pygame.K_KP2:
                     height = False
                     rayonBottom = False
                     rayonMiddle = True
                     rayonTop = False
                     rayonShiny = False
+                    verticies = False
                 elif event.key == pygame.K_KP3:
                     height = False
                     rayonBottom = False
                     rayonMiddle = False
                     rayonTop = True
                     rayonShiny = False
+                    verticies = False
                 elif event.key == pygame.K_KP4:
                     height = False
                     rayonBottom = False
                     rayonMiddle = False
                     rayonTop = False
+                    verticies = False
                     if diamondNumber >= 3:
                         rayonShiny = True
+                elif event.key == pygame.K_v:
+                    height = False
+                    rayonBottom = False
+                    rayonMiddle = False
+                    rayonTop = False
+                    rayonShiny = False
+                    verticies = True
+
+
 
                 if event.key == pygame.K_KP_PLUS:
                     if height:
@@ -427,6 +444,8 @@ def main():
                         coeffRayonTop += 0.1
                     elif rayonShiny:
                         coeffRayonShiny += 0.1
+                    elif verticies:
+                        addNbVerticies += 1
                 elif event.key == pygame.K_KP_MINUS:
                     if height:
                         coeffHeight -= 0.1
@@ -438,9 +457,13 @@ def main():
                         coeffRayonTop -= 0.1
                     elif rayonShiny:
                         coeffRayonShiny -= 0.1
+                    elif verticies:
+                        if addNbVerticies > -3:
+                            addNbVerticies -= 1
+
 
         rayonBool = [height, rayonBottom, rayonMiddle, rayonTop, rayonShiny]
-        coeffs = [coeffHeight, coeffRayonBottom, coeffRayonMiddle, coeffRayonTop, coeffRayonShiny]
+        coeffs = [coeffHeight, coeffRayonBottom, coeffRayonMiddle, coeffRayonTop, coeffRayonShiny, addNbVerticies]
         diamond = createDiamond(diamondNumber, coeffs, rayonBool)
         if transparency:
             glEnable(GL_DEPTH_TEST)
@@ -472,6 +495,7 @@ def main():
         if keypress[pygame.K_F6]:
             glTranslatef(0, 0, 1)
         Cube(x, diamond, colors)
+        print(addNbVerticies)
         # Ground
         glColor4f(0.5, 0.5, 0.5, 1)
         glBegin(GL_QUADS)
