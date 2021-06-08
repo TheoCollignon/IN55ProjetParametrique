@@ -495,7 +495,6 @@ def main():
         if keypress[pygame.K_F6]:
             glTranslatef(0, 0, 1)
         Cube(x, diamond, colors)
-        print(addNbVerticies)
         # Ground
         glColor4f(0.5, 0.5, 0.5, 1)
         glBegin(GL_QUADS)
