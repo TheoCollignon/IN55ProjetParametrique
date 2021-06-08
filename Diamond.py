@@ -62,12 +62,6 @@ def circle(xc, yc, n, r, zc):
 
 
 def createDiamond(diamond, listCoeff, listBool):
-    height = listBool[0]
-    rayonBottom = listBool[1]
-    rayonMiddle = listBool[2]
-    rayonTop = listBool[3]
-    rayonShiny = listBool[4]
-
     coeffHeight = listCoeff[0]
     coeffRayonBottom = listCoeff[1]
     coeffRayonMiddle = listCoeff[2]
@@ -260,7 +254,6 @@ def createDiamond(diamond, listCoeff, listBool):
         # top circle
 
     if diamond > 2:
-
         compt = 1
         for x in range(1, nbTopPts):
             surfaces.append([compt, compt + 1, x + nbMiddlePts])
