@@ -103,9 +103,11 @@ def createDiamond(diamond, listCoeff, listBool):
         topCircle = topCircleBis
 
     # Goutte
-    # topCircle = circle(0, 0, 1, 0, 12)
-    # middleCircle = circle(0, 0, 5, 4, 2)
-    # bottomCircle = circle(0, 0, 1, 0, 0)
+    if diamond == 5:
+        shinyCircle = []
+        topCircle = circle(0, 0, 1, 0 * (coeffRayonShiny + 1), 7 * (coeffHeight + 1))
+        middleCircle = circle(0, 0, 5, 4 * (coeffRayonShiny + 1), -3 * (coeffHeight + 1))
+        bottomCircle = circle(0, 0, 1, 0 * (coeffRayonShiny + 1), -5 * (coeffHeight + 1))
 
     verticies = []
     for x in bottomCircle:
@@ -139,7 +141,7 @@ def createDiamond(diamond, listCoeff, listBool):
     edges.append([nbMiddlePts + 1, nbMiddlePts + nbTopPts])
 
     # Couronne supplémentaire du diamant v3
-    if diamond >= 3:
+    if 5 > diamond >= 3:
         for x in range(1, nbShinyPts):
             edges.append([nbMiddlePts + nbTopPts + x, nbMiddlePts + nbTopPts + x + 1])
         edges.append([nbMiddlePts + nbTopPts + 1, nbMiddlePts + nbTopPts + nbShinyPts])
@@ -253,7 +255,7 @@ def createDiamond(diamond, listCoeff, listBool):
             compt = compt + 2
         # top circle
 
-    if diamond > 2:
+    if 2 < diamond < 5:
         compt = 1
         for x in range(1, nbTopPts):
             surfaces.append([compt, compt + 1, x + nbMiddlePts])
@@ -275,6 +277,12 @@ def createDiamond(diamond, listCoeff, listBool):
         for x in range(1, nbTopPts):
             surfaces.append([x + nbMiddlePts, x + nbMiddlePts + nbTopPts, x + nbMiddlePts + nbTopPts + 1])
         surfaces.append([nbMiddlePts + nbTopPts + nbShinyPts, nbMiddlePts + nbTopPts + 1, nbMiddlePts + nbTopPts])
+    if diamond == 5:
+        max = nbMiddlePts + 1
+        for x in range(1, nbMiddlePts):
+            surfaces.append([max, x, x + 1])
+        surfaces.append([max, nbMiddlePts, 1])
+
     numberDiamond = diamond
     return [surfaces, colors, verticies, edges, middleCircle, topCircle, shinyCircle, numberDiamond]
 
@@ -368,6 +376,8 @@ def main():
                     diamondNumber = 3
                 elif event.key == pygame.K_4:
                     diamondNumber = 4
+                elif event.key == pygame.K_5:
+                    diamondNumber = 5
                 elif event.key == pygame.K_r:
                     colors = colorsRed
                 elif event.key == pygame.K_g:
@@ -403,9 +413,8 @@ def main():
                     rayonBottom = False
                     rayonMiddle = False
                     rayonTop = False
-                    if diamondNumber >=3:
+                    if diamondNumber >= 3:
                         rayonShiny = True
-
 
                 if event.key == pygame.K_KP_PLUS:
                     if height:
