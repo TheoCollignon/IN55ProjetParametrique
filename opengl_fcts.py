@@ -13,10 +13,56 @@ import numpy as np
 import pyrr
 import math
 
+# profil of color
+
+
+colorsBlue = (
+    (0, 0, 1),
+    (0.7, 0.7, 1),
+    (0, 1, 1),
+    (0, 1, 1),
+    (0, 0, 1),
+    (0, 0, 1),
+    (0.2, 0.2, 0.7),
+    (0, 1, 0.7),
+    (0, 1, 1),
+)
+
+colorsRed = (
+    (0.9, 0.2, 0),
+    (0.8, 0.5, 0),
+    (1, 0, 0),
+    (1, 0, 0),
+    (0.9, 0.2, 0),
+    (1, 0.5, 0),
+    (0.8, 0.6, 0.3),
+    (1, 0.5, 0.2),
+    (1, 0.2, 0.2),
+)
+
+colorsGreen = (
+    (0, 1, 1),
+    (0.2, 0.7, 0.2),
+    (0, 0.7, 0),
+    (0, 1, 0),
+    (0.2, 0.7, 0.2),
+    (0, 0.7, 0),
+    (0.5, 1, 0.5),
+    (0, 1, 0.7),
+    (0.3, 1, 0),
+)
+
+
 nb_vert_infos_size = 6
 updateView = False
 item = ""
+first = True
+x, y , diamondNumber = 0, 0, 4
 
+randomValue = random.randint(1, 10)
+rayonBottom, rayonMiddle, rayonTop, rayonShiny, transparency, height, vertices = False, False, False, False, True, True, False
+coeffRayonBottom, coeffRayonMiddle, coeffRayonTop, coeffRayonShiny, coeffHeight, addNbVerticies = 0, 0, 0, 0, 0, 0
+colors = colorsBlue
 
 class Window:
     def __init__(self, width, height, title):
@@ -60,7 +106,7 @@ class Window:
         self.ViewMatrix = pyrr.matrix44.create_look_at(eye, target, up)
 
     def render(self, objects):
-        global item, updateView
+        global item, updateView, first
         glClearColor(0.0, 0.0, 0.0, 1.0)
         glEnable(GL_DEPTH_TEST)
         glDisable(GL_CULL_FACE)
@@ -76,12 +122,12 @@ class Window:
 
             w, h = glfw.get_framebuffer_size(self.Window)
             self.updateProjectionMatrix(w, h)
+            direction = getDirection()
             if getItem() != objects and updateView:
-                print(objects)
-                print(item)
                 updateView = False
-            else:
+            elif first:
                 item = objects
+                first = False
 
             for o in item:
                 o.updateTRSMatrices()
@@ -119,15 +165,15 @@ class Object3D:
 def updateDiamond(objects):
     global updateView, item
     updateView = True
-    print("update")
-    print(objects)
-    print(item)
     item = objects
-    print(item)
-    print(" end update")
 
+
+def setDiamondNumber(value):
+    global diamondNumber
+    diamondNumber = value
 
 def setItem(i):
+    global item
     item = i
 
 
@@ -186,57 +232,13 @@ def getDirection():
         currentDirection = "none"
     return [forward, backward, leftward, rightward, currentDirection]
 
-
-colorsBlue = (
-    (0, 0, 1),
-    (0.7, 0.7, 1),
-    (0, 1, 1),
-    (0, 1, 1),
-    (0, 0, 1),
-    (0, 0, 1),
-    (0.2, 0.2, 0.7),
-    (0, 1, 0.7),
-    (0, 1, 1),
-)
-
-colorsRed = (
-    (0.9, 0.2, 0),
-    (0.8, 0.5, 0),
-    (1, 0, 0),
-    (1, 0, 0),
-    (0.9, 0.2, 0),
-    (1, 0.5, 0),
-    (0.8, 0.6, 0.3),
-    (1, 0.5, 0.2),
-    (1, 0.2, 0.2),
-)
-
-colorsGreen = (
-    (0, 1, 1),
-    (0.2, 0.7, 0.2),
-    (0, 0.7, 0),
-    (0, 1, 0),
-    (0.2, 0.7, 0.2),
-    (0, 0.7, 0),
-    (0.5, 1, 0.5),
-    (0, 1, 0.7),
-    (0.3, 1, 0),
-)
-
-x = random.randint(1, 10)
-rayonBottom, rayonMiddle, rayonTop, rayonShiny, transparency, height, vertices = False, False, False, False, True, True, False
-coeffRayonBottom, coeffRayonMiddle, coeffRayonTop, coeffRayonShiny, coeffHeight, addNbVerticies = 0, 0, 0, 0, 0, 0
-diamondNumber = 4
-colors = colorsBlue
-
-
 def getColors():
     return colors
 
 
 def key_input_clb(window, key, scancode, action, mode):
     # default data
-    global diamondNumber, currentDirection, colors, colorsBlue, x, rayonBottom, rayonMiddle, rayonTop, rayonShiny, \
+    global diamondNumber, currentDirection, colors, colorsBlue, rayonBottom, rayonMiddle, rayonTop, rayonShiny, \
         transparency, height, vertices, coeffRayonBottom, coeffRayonMiddle, coeffRayonTop, coeffRayonShiny, coeffHeight, addNbVerticies, colorsRed, colorsBlue, colorsGreen
 
     # if key == glfw.KEY_W and action == glfw.PRESS:
@@ -250,11 +252,12 @@ def key_input_clb(window, key, scancode, action, mode):
         diamondNumber = 2
     elif key == glfw.KEY_3:
         diamondNumber = 3
+        print("3")
     elif key == glfw.KEY_4:
         diamondNumber = 4
     elif key == glfw.KEY_5:
         diamondNumber = 5
-    elif key == glfw.KEY_R:
+    if key == glfw.KEY_R :
         colors = colorsRed
     elif key == glfw.KEY_G:
         colors = colorsGreen

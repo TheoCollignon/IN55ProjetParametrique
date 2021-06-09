@@ -10,7 +10,8 @@ from opengl_fcts import *
 x = 0
 y = 0
 z = 0
-
+diamondForm = 4
+currentForm = 4
 
 # xc et yc et zc = coordoonées du cercle // n le nombre de point répartit // r le rayon du cercle
 def circle(xc, yc, n, r, zc):
@@ -257,14 +258,10 @@ def createDiamond(diamond, listCoeff, listBool):
     return [surfaces, colors, verticies, edges, middleCircle, topCircle, shinyCircle, numberDiamond, addNbVerticies]
 
 
-
-
-
 class RainbowCube(Object3D):
     def __init__(self):
         super().__init__()
-
-        diamond = createDiamond(4, [0, 0, 0, 0, 0, 0], [True, False, False, False, False, False])
+        diamond = createDiamond(diamondNumber, [0, 0, 0, 0, 0, 0], [True, False, False, False, False, False])
         diamondVertices = []
         vertices = diamond[2]
         for x in vertices:
@@ -340,18 +337,25 @@ class RainbowCube(Object3D):
 
     def updateTRSMatrices(self):
         direction = getDirection()
-        global x, y, colors, window
+        viewUpdate = False
+        global x, y, colors, window, diamondForm, currentForm
+        if currentForm != diamondNumber:
+            currentForm = diamondNumber
+            rc = RainbowCube()
+            rc.translate((x, y, 0.0))
+            objects = [rc]
+            # window.render(objects)
+            updateDiamond(objects)
+            viewUpdate = True
+
         if colors != getColors():
-            print("colors:")
-            print(colors)
-            print("getcolors:")
-            print(getColors())
             colors = getColors()
             rc = RainbowCube()
             rc.translate((x, y, 0.0))
             objects = [rc]
             # window.render(objects)
             updateDiamond(objects)
+            viewUpdate = True
 
         if direction[0]:
             x -= 0.001
@@ -374,6 +378,11 @@ class RainbowCube(Object3D):
             rot_y = pyrr.Matrix44.from_y_rotation(y)
             self.R = np.matmul(rot_x, rot_y)
 
+        if direction[4]:  # not moving
+            rot_x = pyrr.Matrix44.from_x_rotation(x)
+            rot_y = pyrr.Matrix44.from_y_rotation(y)
+            self.R = np.matmul(rot_x, rot_y)
+
         # time = glfw.get_time()
         # rot_x = pyrr.Matrix44.from_x_rotation(0.5 * time)
         # rot_y = pyrr.Matrix44.from_y_rotation(0.8 * time)
@@ -392,7 +401,7 @@ def main():
     window.initViewMatrix(eye=[0, 0, 25])
 
     rc = RainbowCube()
-    rc.translate((0.0, 0.0, 0.0))
+    rc.translate((0, 0, 0.0))
 
     objects = [rc]
 
