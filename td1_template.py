@@ -42,7 +42,6 @@ def createDiamond(diamond, listCoeff, listBool):
     coeffRayonShiny = listCoeff[4]
     addNbVerticies = listCoeff[5]
 
-
     if addNbVerticies < -4:
         addNbVerticies = -4
 
@@ -67,7 +66,8 @@ def createDiamond(diamond, listCoeff, listBool):
 
         shinyCircleEdges = []
         topCircleEdges = circle(0, 0, 6 + addNbVerticies, 3 * (coeffRayonTop + 1) + 0.1, 3 * (coeffHeight + 1))
-        middleCircleEdges = circle(0, 0, 12 + addNbVerticies * 2, 6 * (coeffRayonMiddle + 1) + 0.1, 1 * (coeffHeight + 1))
+        middleCircleEdges = circle(0, 0, 12 + addNbVerticies * 2, 6 * (coeffRayonMiddle + 1) + 0.1,
+                                   1 * (coeffHeight + 1))
         bottomCircleEdges = circle(0, 0, 1, 0 * (coeffRayonBottom + 1), -5 * (coeffHeight + 1) - 0.1)
 
     # Diamant v3 :
@@ -79,8 +79,9 @@ def createDiamond(diamond, listCoeff, listBool):
 
         shinyCircleEdges = circle(0, 0, 9 + addNbVerticies, 3 * (coeffRayonShiny + 1) + 0.1, 9 * (coeffHeight + 1))
         topCircleEdges = circle(0, 0, 9 + addNbVerticies, 7 * (coeffRayonTop + 1) + 0.1, 8 * (coeffHeight + 1))
-        middleCircleEdges = circle(0, 0, 18 + addNbVerticies * 2, 10 * (coeffRayonMiddle + 1)  + 0.1, 6 * (coeffHeight + 1))
-        bottomCircleEdges = circle(0, 0, 1, 0 * (coeffRayonBottom + 1), -5 * (coeffHeight + 1)- 0.1)
+        middleCircleEdges = circle(0, 0, 18 + addNbVerticies * 2, 10 * (coeffRayonMiddle + 1) + 0.1,
+                                   6 * (coeffHeight + 1))
+        bottomCircleEdges = circle(0, 0, 1, 0 * (coeffRayonBottom + 1), -5 * (coeffHeight + 1) - 0.1)
 
     if diamond == 4:
         # Diamant v4 :
@@ -89,12 +90,13 @@ def createDiamond(diamond, listCoeff, listBool):
         middleCircle = circle(0, 0, 16 + addNbVerticies * 2, 10 * (coeffRayonMiddle + 1), 6 * (coeffHeight + 1))
         bottomCircle = circle(0, 0, 1, 0 * (coeffRayonBottom + 1), -5 * (coeffHeight + 1))
 
-        shinyCircleEdges = circle(0, 0, 8 + addNbVerticies, 3 * (coeffRayonShiny + 1) + 0.1, 9 * (coeffHeight + 1) +0.1)
-        topCircleEdges = circle(0, 0, 16 + addNbVerticies * 2, 7 * (coeffRayonTop + 1) + 0.1, 8 * (coeffHeight + 1)+0.1)
-        middleCircleEdges = circle(0, 0, 16 + addNbVerticies * 2, 10 * (coeffRayonMiddle + 1) + 0.1, 6 * (coeffHeight + 1))
+        shinyCircleEdges = circle(0, 0, 8 + addNbVerticies, 3 * (coeffRayonShiny + 1) + 0.1,
+                                  9 * (coeffHeight + 1) + 0.1)
+        topCircleEdges = circle(0, 0, 16 + addNbVerticies * 2, 7 * (coeffRayonTop + 1) + 0.1,
+                                8 * (coeffHeight + 1) + 0.1)
+        middleCircleEdges = circle(0, 0, 16 + addNbVerticies * 2, 10 * (coeffRayonMiddle + 1) + 0.1,
+                                   6 * (coeffHeight + 1))
         bottomCircleEdges = circle(0, 0, 1, 0 * (coeffRayonBottom + 1), -5 * (coeffHeight + 1) - 0.1)
-
-
 
         topCircleBis = []
         for i in range(len(topCircle)):
@@ -118,7 +120,7 @@ def createDiamond(diamond, listCoeff, listBool):
         shinyCircleEdges = []
         topCircleEdges = circle(0, 0, 1, 0 * (coeffRayonShiny + 1), 7 * (coeffHeight + 1) + 0.1)
         middleCircleEdges = circle(0, 0, 6 + addNbVerticies, 4 * (coeffRayonShiny + 1), -3 * (coeffHeight + 1) + 0.1)
-        bottomCircleEdges = circle(0, 0, 1, 0 * (coeffRayonShiny + 1), -5 * (coeffHeight + 1) -0.1)
+        bottomCircleEdges = circle(0, 0, 1, 0 * (coeffRayonShiny + 1), -5 * (coeffHeight + 1) - 0.1)
 
     verticies = []
     for x in bottomCircle:
@@ -131,7 +133,6 @@ def createDiamond(diamond, listCoeff, listBool):
         verticies.append(x)
 
     nbVerticies = len(verticies)
-
 
     for x in bottomCircleEdges:
         verticies.append(x)
@@ -153,7 +154,6 @@ def createDiamond(diamond, listCoeff, listBool):
     surfaces = generateSurfaces(0, [diamond, nbMiddlePts, nbTopPts, nbShinyPts])
     surfacesBis = generateSurfaces(nbVerticies, [diamond, nbMiddlePts, nbTopPts, nbShinyPts])
 
-
     numberDiamond = diamond
     # adding the ground coordinate
     groundCoordinate = [
@@ -165,20 +165,19 @@ def createDiamond(diamond, listCoeff, listBool):
     for x in groundCoordinate:
         verticies.append(x)
 
-    edges = []
+    return [surfaces, colors, verticies, middleCircle, topCircle, shinyCircle, numberDiamond, addNbVerticies,
+            surfacesBis]
 
-    return [surfaces, colors, verticies, edges, middleCircle, topCircle, shinyCircle, numberDiamond, addNbVerticies, surfacesBis]
 
-
-def generateSurfaces(gap, parameters):
-    diamond = parameters[0]
+def generateSurfaces(gap, parameters):  # create surfaces objects
+    diamond = parameters[0] # diamond form
     nbMiddlePts = parameters[1]
     nbTopPts = parameters[2]
     nbShinyPts = parameters[3]
 
     surfaces = []
     # bot to mid
-    for x in range(1, nbMiddlePts ):
+    for x in range(1, nbMiddlePts):
         surfaces.append([0, x, x + 1])
     surfaces.append([0, nbMiddlePts, 1])
 
@@ -249,8 +248,6 @@ def generateSurfaces(gap, parameters):
             temp.append(x + gap)
         finalSurfaces.append(temp)
 
-    print("1 : ")
-    print(finalSurfaces)
     return finalSurfaces
 
 
@@ -269,10 +266,10 @@ def setupDiamond():
         for i in x:
             diamondVertices.append(i)
             randomValue = random.randint(0, 7)
-        if num < (len(vertices) - (3+nbVerticies)) :
+        if num < (len(vertices) - (3 + nbVerticies)):
             for i in colors[randomValue]:
                 diamondVertices.append(i)
-        elif num  < (len(vertices) - (3)):
+        elif num < (len(vertices) - (3)):
             for i in blackColor:
                 diamondVertices.append(i)
         else:
@@ -288,7 +285,7 @@ def setupDiamond():
             diamondEdges.append(x)
 
     diamondEdgesBis = []
-    for i in diamond[9]:
+    for i in diamond[8]:
         for x in i:
             diamondEdgesBis.append(x)
 
@@ -297,10 +294,10 @@ def setupDiamond():
 
     # top of the diamond :
     circlePts = []
-    nbShinyPts = len(diamond[6])
-    nbTopPts = len(diamond[5])
-    nbMiddlePts = len(diamond[4])
-    if diamond[7] >= 3:
+    nbShinyPts = len(diamond[5])
+    nbTopPts = len(diamond[4])
+    nbMiddlePts = len(diamond[3])
+    if diamond[6] >= 3:
         for x in range(nbShinyPts):
             circlePts.append(nbMiddlePts + nbTopPts + x + 1)
     else:
@@ -318,7 +315,7 @@ def setupDiamond():
             (GL_LINES, circlePts),
             (GL_POLYGON, groundIndices),
         ]
-    else :
+    else:
         primitives = [
             (GL_LINES, indicesBis),
             (GL_TRIANGLES, indices),
@@ -329,7 +326,7 @@ def setupDiamond():
     return [vertices, primitives]
 
 
-class RainbowCube(Object3D):
+class Diamond(Object3D):
     def __init__(self):
         super().__init__()
         data = setupDiamond()
@@ -346,34 +343,31 @@ class RainbowCube(Object3D):
         listCoeff = getListCoeff()
         if transparency != isTransparent:
             isTransparent = transparency
-            rc = RainbowCube()
+            rc = Diamond()
             rc.translate((x, y, 0.0))
             objects = [rc]
             updateDiamond(objects)
 
         if listCoeff != currentCoeff:
             currentCoeff = listCoeff
-            rc = RainbowCube()
+            rc = Diamond()
             rc.translate((x, y, 0.0))
             objects = [rc]
             updateDiamond(objects)
-
 
         if currentForm != diamondNumber:
             currentForm = diamondNumber
-            rc = RainbowCube()
+            rc = Diamond()
             rc.translate((x, y, 0.0))
             objects = [rc]
             updateDiamond(objects)
-
 
         if colors != getColors():
             colors = getColors()
-            rc = RainbowCube()
+            rc = Diamond()
             rc.translate((x, y, 0.0))
             objects = [rc]
             updateDiamond(objects)
-
 
         if direction[0]:
             x -= 0.001
@@ -418,7 +412,7 @@ def main():
 
     window.initViewMatrix(eye=[0, 0, 25])
 
-    rc = RainbowCube()
+    rc = Diamond()
     rc.translate((0, 0, 0.0))
 
     objects = [rc]
