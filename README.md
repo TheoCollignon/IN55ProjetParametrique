@@ -10,6 +10,7 @@ Diamond Maker - Theo COLLIGNON | Luka LAMBALOT
 - Press "3" to select the middle-top circle width change mode
 - Press "4" to select the top circle width change mode
 
+
 One a change mode is selected, press "+" or "-" to change the value.
 
 
