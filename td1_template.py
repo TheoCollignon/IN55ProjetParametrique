@@ -12,6 +12,8 @@ y = 0
 z = 0
 diamondForm = 4
 currentForm = 4
+currentCoeff = [0, 0, 0, 0, 0, 0]
+
 
 # xc et yc et zc = coordoonées du cercle // n le nombre de point répartit // r le rayon du cercle
 def circle(xc, yc, n, r, zc):
@@ -42,17 +44,17 @@ def createDiamond(diamond, listCoeff, listBool):
 
     # Diamant v1 :
     if diamond == 1:
-        topCircle = circle(0, 0, 6 + addNbVerticies, 3 * (coeffRayonTop + 1), 6 * (coeffHeight + 1))
-        middleCircle = circle(0, 0, 6 + addNbVerticies, 6 * (coeffRayonMiddle + 1), 4 * (coeffHeight + 1))
-        bottomCircle = circle(0, 0, 1, 0 * (coeffRayonBottom + 1), -2 * (coeffHeight + 1))
+        topCircle = circle(0, 0, 6 + addNbVerticies, 3 * (coeffRayonTop + 1), 4 * (coeffHeight + 1))
+        middleCircle = circle(0, 0, 6 + addNbVerticies, 6 * (coeffRayonMiddle + 1), 2 * (coeffHeight + 1))
+        bottomCircle = circle(0, 0, 1, 0 * (coeffRayonBottom + 1), -5 * (coeffHeight + 1))
         shinyCircle = []
 
     # Diamant v2 :
     if diamond == 2:
         shinyCircle = []
-        topCircle = circle(0, 0, 6 + addNbVerticies, 3 * (coeffRayonTop + 1), 6 * (coeffHeight + 1))
-        middleCircle = circle(0, 0, 12 + addNbVerticies * 2, 6 * (coeffRayonMiddle + 1), 4 * (coeffHeight + 1))
-        bottomCircle = circle(0, 0, 1, 0 * (coeffRayonBottom + 1), -2 * (coeffHeight + 1))
+        topCircle = circle(0, 0, 6 + addNbVerticies, 3 * (coeffRayonTop + 1), 3 * (coeffHeight + 1))
+        middleCircle = circle(0, 0, 12 + addNbVerticies * 2, 6 * (coeffRayonMiddle + 1), 1 * (coeffHeight + 1))
+        bottomCircle = circle(0, 0, 1, 0 * (coeffRayonBottom + 1), -5 * (coeffHeight + 1))
 
     # Diamant v3 :
     if diamond == 3:
@@ -258,104 +260,114 @@ def createDiamond(diamond, listCoeff, listBool):
     return [surfaces, colors, verticies, edges, middleCircle, topCircle, shinyCircle, numberDiamond, addNbVerticies]
 
 
+def setupDiamond():
+    diamond = createDiamond(diamondNumber, currentCoeff, [True, False, False, False, False, False])
+    diamondVertices = []
+    vertices = diamond[2]
+    for x in vertices:
+        for i in x:
+            diamondVertices.append(i)
+        randomValue = random.randint(0, 7)
+        for i in colors[randomValue]:
+            diamondVertices.append(i)
+
+
+    vertices = [
+        -0.5, -0.5, 0.5, 1.0, 0.0, 0.0,
+        0.5, -0.5, 0.5, 0.0, 1.0, 0.0,
+        0.5, 0.5, 0.5, 0.0, 0.0, 1.0,
+        -0.5, 0.5, 0.5, 1.0, 1.0, 1.0,
+
+        -0.5, -0.5, -0.5, 1.0, 0.0, 0.0,
+        0.5, -0.5, -0.5, 0.0, 1.0, 0.0,
+        0.5, 0.5, -0.5, 0.0, 0.0, 1.0,
+        -0.5, 0.5, -0.5, 1.0, 1.0, 1.0
+    ]
+    vertices = diamondVertices
+
+    indices = [0, 1, 2,
+               2, 3, 0,
+               4, 5, 6,
+               6, 7, 4,
+               4, 5, 1,
+               1, 0, 4,
+               6, 7, 3,
+               3, 2, 6,
+               5, 6, 2,
+               2, 1, 5,
+               7, 4, 0,
+               0, 3, 7]
+
+    diamondEdges = []
+    for i in diamond[0]:
+        for x in i:
+            diamondEdges.append(x)
+
+    indices = diamondEdges
+
+    # top of the diamond :
+    circlePts = []
+    nbShinyPts = len(diamond[6])
+    nbTopPts = len(diamond[5])
+    nbMiddlePts = len(diamond[4])
+    if diamond[7] >= 3:
+        for x in range(nbShinyPts):
+            circlePts.append(nbMiddlePts + nbTopPts + x + 1)
+    else:
+        for x in range(nbTopPts):
+            circlePts.append(nbMiddlePts + x + 1)
+
+    # Ground
+    groundIndices = []
+    for x in range(4):
+        groundIndices.append(1 + nbMiddlePts + nbTopPts + nbShinyPts + x)
+
+
+    primitives = [
+        (GL_TRIANGLES, indices),
+        (GL_POLYGON, circlePts),
+        (GL_POLYGON, groundIndices)
+    ]
+    return [vertices, primitives]
+
+
 class RainbowCube(Object3D):
     def __init__(self):
         super().__init__()
-        diamond = createDiamond(diamondNumber, [0, 0, 0, 0, 0, 0], [True, False, False, False, False, False])
-        diamondVertices = []
-        vertices = diamond[2]
-        for x in vertices:
-            for i in x:
-                diamondVertices.append(i)
-            randomValue = random.randint(0, 7)
-            for i in colors[randomValue]:
-                diamondVertices.append(i)
-        print("diamond verticies :")
-        print(diamondVertices)
-
-        vertices = [
-            -0.5, -0.5, 0.5, 1.0, 0.0, 0.0,
-            0.5, -0.5, 0.5, 0.0, 1.0, 0.0,
-            0.5, 0.5, 0.5, 0.0, 0.0, 1.0,
-            -0.5, 0.5, 0.5, 1.0, 1.0, 1.0,
-
-            -0.5, -0.5, -0.5, 1.0, 0.0, 0.0,
-            0.5, -0.5, -0.5, 0.0, 1.0, 0.0,
-            0.5, 0.5, -0.5, 0.0, 0.0, 1.0,
-            -0.5, 0.5, -0.5, 1.0, 1.0, 1.0
-        ]
-        vertices = diamondVertices
-
-        indices = [0, 1, 2,
-                   2, 3, 0,
-                   4, 5, 6,
-                   6, 7, 4,
-                   4, 5, 1,
-                   1, 0, 4,
-                   6, 7, 3,
-                   3, 2, 6,
-                   5, 6, 2,
-                   2, 1, 5,
-                   7, 4, 0,
-                   0, 3, 7]
-
-        diamondEdges = []
-        for i in diamond[0]:
-            for x in i:
-                diamondEdges.append(x)
-        print("indices : ")
-        print(diamondEdges)
-        indices = diamondEdges
-
-        # top of the diamond :
-        circlePts = []
-        nbShinyPts = len(diamond[6])
-        nbTopPts = len(diamond[5])
-        nbMiddlePts = len(diamond[4])
-        if diamond[7] >= 3:
-            for x in range(nbShinyPts):
-                circlePts.append(nbMiddlePts + nbTopPts + x + 1)
-        else:
-            for x in range(nbTopPts):
-                circlePts.append(nbMiddlePts + x + 1)
-
-        # Ground
-        groundIndices = []
-        print(len(diamondVertices))
-        print(nbShinyPts + nbTopPts + nbMiddlePts)
-        for x in range(4):
-            groundIndices.append(1 + nbMiddlePts + nbTopPts + nbShinyPts + x)
-        print(groundIndices)
-
-        primitives = [
-            (GL_TRIANGLES, indices),
-            (GL_POLYGON, circlePts),
-            (GL_POLYGON, groundIndices)
-        ]
-
+        data = setupDiamond()
+        vertices = data[0]
+        primitives = data[1]
         self.Shader = ColorPositionShader(vertices, primitives)
 
     def updateTRSMatrices(self):
         direction = getDirection()
         viewUpdate = False
-        global x, y, colors, window, diamondForm, currentForm
+        global x, y, colors, window, diamondNumber, currentForm, currentCoeff
+        diamondNumber = getDiamondNumer()
+        listCoeff = getListCoeff()
+        if listCoeff != currentCoeff:
+            currentCoeff = listCoeff
+            rc = RainbowCube()
+            rc.translate((x, y, 0.0))
+            objects = [rc]
+            updateDiamond(objects)
+
+
         if currentForm != diamondNumber:
             currentForm = diamondNumber
             rc = RainbowCube()
             rc.translate((x, y, 0.0))
             objects = [rc]
-            # window.render(objects)
             updateDiamond(objects)
-            viewUpdate = True
+
 
         if colors != getColors():
             colors = getColors()
             rc = RainbowCube()
             rc.translate((x, y, 0.0))
             objects = [rc]
-            # window.render(objects)
             updateDiamond(objects)
-            viewUpdate = True
+
 
         if direction[0]:
             x -= 0.001
