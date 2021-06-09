@@ -496,7 +496,7 @@ def main():
             glTranslatef(0, 0, 1)
         Cube(x, diamond, colors)
         # Ground
-        glColor4f(0.5, 0.5, 0.5, 1)
+        glColor4f(0.5, 0.5, 0.5, 0)
         glBegin(GL_QUADS)
         glVertex3f(-30, -30, -5 * (1 + coeffHeight))
         glVertex3f(30, -30, -5 * (1 + coeffHeight))
