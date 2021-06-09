@@ -147,88 +147,6 @@ def createDiamond(diamond, listCoeff, listBool):
     nbTopPts = len(topCircle)
     nbShinyPts = len(shinyCircle)
 
-    edges = []
-
-    # Point du bas vers le milieu
-    for x in range(nbMiddlePts + 1):
-        edges.append([0, x])
-
-    # Couronne du milieu
-    for x in range(1, nbMiddlePts):
-        edges.append([x, x + 1])
-    edges.append([1, nbMiddlePts])
-
-    # Couronne du haut
-    for x in range(1, nbTopPts):
-        edges.append([nbMiddlePts + x, nbMiddlePts + x + 1])
-    edges.append([nbMiddlePts + 1, nbMiddlePts + nbTopPts])
-
-    # Couronne supplémentaire du diamant v3
-    if 5 > diamond >= 3:
-        for x in range(1, nbShinyPts):
-            edges.append([nbMiddlePts + nbTopPts + x, nbMiddlePts + nbTopPts + x + 1])
-        edges.append([nbMiddlePts + nbTopPts + 1, nbMiddlePts + nbTopPts + nbShinyPts])
-
-    # Milieu vers le haut
-    if nbMiddlePts == nbTopPts:  # Même nombre de points
-        for x in range(1, nbMiddlePts + 1):
-            edges.append([x, nbMiddlePts + x])
-
-    # elif nbMiddlePts == nbTopPts * 2:  # Deux fois plus de points au milieu avec espacement base
-    #     temp = 1
-    #     for x in range(1, nbTopPts + 1):
-    #         edges.append([temp, nbMiddlePts + x])
-    #         edges.append([temp + 1, nbMiddlePts + x])
-    #         temp = temp + 2
-
-    elif nbMiddlePts == nbTopPts * 2:  # Deux fois plus de points au milieu sans espacements base
-        temp = 1
-        for x in range(1, nbTopPts + 1):
-            edges.append([temp, nbMiddlePts + x])
-            edges.append([temp + 1, nbMiddlePts + x])
-            edges.append([temp + 2, nbMiddlePts + x])
-            temp = temp + 2
-        edges.append([temp + nbTopPts - 1, 1])
-
-
-
-    elif nbMiddlePts == nbTopPts * 3:  # trois fois plus de points au milieu
-        temp = 0
-        for x in range(1, nbTopPts + 1):
-            if temp == 0:
-                edges.append([nbMiddlePts + (x - 1), nbMiddlePts + x])
-            else:
-                edges.append([temp, nbMiddlePts + x])
-            edges.append([temp + 1, nbMiddlePts + x])
-            edges.append([temp + 2, nbMiddlePts + x])
-            temp = temp + 3
-
-    # from top to shiny avec points séparé
-    # if nbShinyPts == nbTopPts:  # Même nombre de points
-    #     for x in range(1, nbShinyPts + 1):
-    #         edges.append([nbMiddlePts + x, nbMiddlePts + nbTopPts + x])
-
-    # from top to shiny avec points collé
-    if nbShinyPts == nbTopPts:  # Même nombre de points
-        for x in range(1, nbShinyPts + 1):
-            if x != 1:
-                edges.append([nbMiddlePts + x - 1, nbMiddlePts + nbTopPts + x])
-            edges.append([nbMiddlePts + x, nbMiddlePts + nbTopPts + x])
-        edges.append([nbMiddlePts + nbShinyPts + 1, nbMiddlePts + nbTopPts])
-
-
-    elif nbMiddlePts + nbTopPts == nbShinyPts * 2:  # Deux fois plus de points au milieu
-        temp = 1
-        for x in range(1, nbShinyPts + 1):
-            edges.append([temp, nbMiddlePts + nbTopPts + x])
-            edges.append([temp + 1, nbMiddlePts + nbTopPts + x])
-            temp = temp + 2
-
-    # Un seul point du haut
-    elif nbTopPts == 1:
-        for x in range(nbMiddlePts + 1):
-            edges.append([x, nbMiddlePts + 1])
-
     # Trying some stuff with colors :
     colors = getColors()
 
@@ -246,6 +164,8 @@ def createDiamond(diamond, listCoeff, listBool):
     ]
     for x in groundCoordinate:
         verticies.append(x)
+
+    edges = []
 
     return [surfaces, colors, verticies, edges, middleCircle, topCircle, shinyCircle, numberDiamond, addNbVerticies, surfacesBis]
 
@@ -360,33 +280,7 @@ def setupDiamond():
                 diamondVertices.append(i)
         num += 1
 
-
-
-    vertices = [
-        -0.5, -0.5, 0.5, 1.0, 0.0, 0.0,
-        0.5, -0.5, 0.5, 0.0, 1.0, 0.0,
-        0.5, 0.5, 0.5, 0.0, 0.0, 1.0,
-        -0.5, 0.5, 0.5, 1.0, 1.0, 1.0,
-
-        -0.5, -0.5, -0.5, 1.0, 0.0, 0.0,
-        0.5, -0.5, -0.5, 0.0, 1.0, 0.0,
-        0.5, 0.5, -0.5, 0.0, 0.0, 1.0,
-        -0.5, 0.5, -0.5, 1.0, 1.0, 1.0
-    ]
     vertices = diamondVertices
-
-    indices = [0, 1, 2,
-               2, 3, 0,
-               4, 5, 6,
-               6, 7, 4,
-               4, 5, 1,
-               1, 0, 4,
-               6, 7, 3,
-               3, 2, 6,
-               5, 6, 2,
-               2, 1, 5,
-               7, 4, 0,
-               0, 3, 7]
 
     diamondEdges = []
     for i in diamond[0]:
