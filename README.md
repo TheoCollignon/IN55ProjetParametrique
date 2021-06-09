@@ -4,6 +4,9 @@ Diamond Maker - Theo COLLIGNON | Luka LAMBALOT
 - Press UP, DOWN, LEFT, RIGHT to control the camera
 
 
+Here are the differents change modes :
+
+
 - Press "H" to select the height change mode
 - Press "V" to select the number of vertices change mode
 - Press "2" to select the middle circle width change mode
