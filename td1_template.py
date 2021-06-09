@@ -13,6 +13,7 @@ z = 0
 diamondForm = 4
 currentForm = 4
 currentCoeff = [0, 0, 0, 0, 0, 0]
+isTransparent = False
 
 
 # xc et yc et zc = coordoonées du cercle // n le nombre de point répartit // r le rayon du cercle
@@ -333,12 +334,20 @@ def setupDiamond():
     for x in range(4):
         groundIndices.append(1 + nbMiddlePts + nbTopPts + nbShinyPts + x)
 
+    if getTransparency():
+        primitives = [
+            (GL_LINES, indices),
+            (GL_LINES, circlePts),
+            (GL_POLYGON, groundIndices),
+        ]
+    else :
+        primitives = [
+            (GL_LINES, indices),
+            (GL_TRIANGLES, indices),
+            (GL_POLYGON, circlePts),
+            (GL_POLYGON, groundIndices),
+        ]
 
-    primitives = [
-        (GL_TRIANGLES, indices),
-        (GL_POLYGON, circlePts),
-        (GL_POLYGON, groundIndices)
-    ]
     return [vertices, primitives]
 
 
@@ -353,9 +362,17 @@ class RainbowCube(Object3D):
     def updateTRSMatrices(self):
         direction = getDirection()
         viewUpdate = False
-        global x, y, colors, window, diamondNumber, currentForm, currentCoeff
+        global x, y, colors, window, diamondNumber, currentForm, currentCoeff, isTransparent
+        transparency = getTransparency()
         diamondNumber = getDiamondNumer()
         listCoeff = getListCoeff()
+        if transparency != isTransparent:
+            isTransparent = transparency
+            rc = RainbowCube()
+            rc.translate((x, y, 0.0))
+            objects = [rc]
+            updateDiamond(objects)
+
         if listCoeff != currentCoeff:
             currentCoeff = listCoeff
             rc = RainbowCube()

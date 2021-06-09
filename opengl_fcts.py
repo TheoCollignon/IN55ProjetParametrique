@@ -54,13 +54,12 @@ colorsGreen = (
 
 
 nb_vert_infos_size = 6
-updateView = False
+updateView, first, transparency = False, True, False
 item = ""
-first = True
-x, y , diamondNumber = 0, 0, 4
+x, y, diamondNumber = 0, 0, 4
 
 randomValue = random.randint(1, 10)
-rayonBottom, rayonMiddle, rayonTop, rayonShiny, transparency, height, vertices = False, False, False, False, True, True, False
+rayonBottom, rayonMiddle, rayonTop, rayonShiny, height, vertices = False, False, False, False, True, False
 coeffRayonBottom, coeffRayonMiddle, coeffRayonTop, coeffRayonShiny, coeffHeight, addNbVerticies = 0, 0, 0, 0, 0, 0
 colors = colorsBlue
 listCoeff = [0, 0, 0, 0, 0, 0] # CoeffHeight, coeffRayonBottom,coeffRayonMiddle ,coeffRayonTop ,coeffRayonShiny,addNbVerticies
@@ -129,7 +128,6 @@ class Window:
             elif first:
                 item = objects
                 first = False
-
             for o in item:
                 o.updateTRSMatrices()
                 o.updateModelMatrix()
@@ -179,13 +177,19 @@ def setItem(i):
 
 def getDiamondNumer():
     return diamondNumber
+
 def getItem():
     return item
 
+def getTransparency():
+    return transparency
 
 def getUpdate():
     return updateView
 
+def changeTransparencyValue():
+    global transparency
+    transparency = not transparency
 
 forward = False
 backward = False
@@ -281,6 +285,9 @@ def key_input_clb(window, key, scancode, action, mode):
             rayonShiny = True
     elif key == glfw.KEY_V:
         height, rayonBottom, rayonMiddle, rayonTop, rayonShiny, vertices = False, False, False, False, False, True
+    elif key == glfw.KEY_T and action == glfw.PRESS:
+        changeTransparencyValue()
+
 
 
     elif key == glfw.KEY_KP_ADD and action == glfw.PRESS:
