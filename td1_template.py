@@ -39,6 +39,7 @@ def createDiamond(diamond, listCoeff, listBool):
     coeffRayonShiny = listCoeff[4]
     addNbVerticies = listCoeff[5]
 
+
     if addNbVerticies < -4:
         addNbVerticies = -4
 
@@ -250,10 +251,10 @@ def createDiamond(diamond, listCoeff, listBool):
     numberDiamond = diamond
     # adding the ground coordinate
     groundCoordinate = [
-        [-30, -30, -5],
-        [30, -30, -5],
-        [30, 30, -5],
-        [-30, 30, -5],
+        [-30, -30, -5 * (coeffHeight + 1)],
+        [30, -30, -5 * (coeffHeight + 1)],
+        [30, 30, -5 * (coeffHeight + 1)],
+        [-30, 30, -5 * (coeffHeight + 1)],
     ]
     for x in groundCoordinate:
         verticies.append(x)
