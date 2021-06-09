@@ -265,12 +265,22 @@ def setupDiamond():
     diamond = createDiamond(diamondNumber, currentCoeff, [True, False, False, False, False, False])
     diamondVertices = []
     vertices = diamond[2]
+    num = 1
+    greyColor = (
+        (0.5, 0.5, 0.5)
+    )
     for x in vertices:
         for i in x:
             diamondVertices.append(i)
-        randomValue = random.randint(0, 7)
-        for i in colors[randomValue]:
-            diamondVertices.append(i)
+            randomValue = random.randint(0, 7)
+        if num < (len(vertices) - 5) :
+            for i in colors[randomValue]:
+                diamondVertices.append(i)
+        else:
+            for i in greyColor:
+                diamondVertices.append(i)
+        num += 1
+
 
 
     vertices = [

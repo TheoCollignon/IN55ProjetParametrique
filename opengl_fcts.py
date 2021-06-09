@@ -52,19 +52,18 @@ colorsGreen = (
     (0.3, 1, 0),
 )
 
+
 nb_vert_infos_size = 6
 updateView = False
 item = ""
 first = True
-x, y, diamondNumber = 0, 0, 4
+x, y , diamondNumber = 0, 0, 4
 
 randomValue = random.randint(1, 10)
 rayonBottom, rayonMiddle, rayonTop, rayonShiny, transparency, height, vertices = False, False, False, False, True, True, False
 coeffRayonBottom, coeffRayonMiddle, coeffRayonTop, coeffRayonShiny, coeffHeight, addNbVerticies = 0, 0, 0, 0, 0, 0
 colors = colorsBlue
-listCoeff = [0, 0, 0, 0, 0,
-             0]  # CoeffHeight, coeffRayonBottom,coeffRayonMiddle ,coeffRayonTop ,coeffRayonShiny,addNbVerticies
-
+listCoeff = [0, 0, 0, 0, 0, 0] # CoeffHeight, coeffRayonBottom,coeffRayonMiddle ,coeffRayonTop ,coeffRayonShiny,addNbVerticies
 
 class Window:
     def __init__(self, width, height, title):
@@ -174,16 +173,12 @@ def setDiamondNumber(value):
     global diamondNumber
     diamondNumber = value
 
-
 def setItem(i):
     global item
     item = i
 
-
 def getDiamondNumer():
     return diamondNumber
-
-
 def getItem():
     return item
 
@@ -239,15 +234,12 @@ def getDirection():
         currentDirection = "none"
     return [forward, backward, leftward, rightward, currentDirection]
 
-
 def getColors():
     return colors
 
-
 def getListCoeff():
-    data = [coeffHeight, coeffRayonBottom, coeffRayonMiddle, coeffRayonTop, coeffRayonShiny, addNbVerticies]
+    data = [coeffHeight, coeffRayonBottom,coeffRayonMiddle ,coeffRayonTop ,coeffRayonShiny,addNbVerticies]
     return data
-
 
 def key_input_clb(window, key, scancode, action, mode):
     # default data
@@ -269,7 +261,7 @@ def key_input_clb(window, key, scancode, action, mode):
         diamondNumber = 4
     elif key == glfw.KEY_5:
         diamondNumber = 5
-    if key == glfw.KEY_R:
+    if key == glfw.KEY_R :
         colors = colorsRed
     elif key == glfw.KEY_G:
         colors = colorsGreen
