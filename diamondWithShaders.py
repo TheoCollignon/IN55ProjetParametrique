@@ -35,12 +35,12 @@ def circle(xc, yc, n, r, zc):
 
 def createDiamond(diamond, listCoeff, listBool):
     global nbVerticies
-    coeffHeight = listCoeff[0]
-    coeffRayonBottom = listCoeff[1]
-    coeffRayonMiddle = listCoeff[2]
-    coeffRayonTop = listCoeff[3]
-    coeffRayonShiny = listCoeff[4]
-    addNbVerticies = listCoeff[5]
+    coeffHeight, coeffRayonBottom, coeffRayonMiddle, coeffRayonTop, coeffRayonShiny, addNbVerticies = listCoeff[0], \
+                                                                                                      listCoeff[1], \
+                                                                                                      listCoeff[2], \
+                                                                                                      listCoeff[3], \
+                                                                                                      listCoeff[4], \
+                                                                                                      listCoeff[5]
 
     if addNbVerticies < -4:
         addNbVerticies = -4
@@ -157,10 +157,10 @@ def createDiamond(diamond, listCoeff, listBool):
     numberDiamond = diamond
     # adding the ground coordinate
     groundCoordinate = [
-        [-30, -30, -5 * (coeffHeight + 1)],
-        [30, -30, -5 * (coeffHeight + 1)],
-        [30, 30, -5 * (coeffHeight + 1)],
-        [-30, 30, -5 * (coeffHeight + 1)],
+        [-50, -50, -5 * (coeffHeight + 1)],
+        [50, -50, -5 * (coeffHeight + 1)],
+        [50, 50, -5 * (coeffHeight + 1)],
+        [-50, 50, -5 * (coeffHeight + 1)],
     ]
     for x in groundCoordinate:
         verticies.append(x)
@@ -410,7 +410,7 @@ def main():
     if not window.Window:
         return
 
-    window.initViewMatrix(eye=[0, 0, 25])
+    window.initViewMatrix(eye=[0, 0, 45])
 
     rc = Diamond()
     rc.translate((0, 0, 0.0))

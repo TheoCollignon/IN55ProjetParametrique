@@ -62,12 +62,7 @@ def circle(xc, yc, n, r, zc):
 
 
 def createDiamond(diamond, listCoeff, listBool):
-    coeffHeight = listCoeff[0]
-    coeffRayonBottom = listCoeff[1]
-    coeffRayonMiddle = listCoeff[2]
-    coeffRayonTop = listCoeff[3]
-    coeffRayonShiny = listCoeff[4]
-    addNbVerticies = listCoeff[5]
+    coeffHeight, coeffRayonBottom, coeffRayonMiddle, coeffRayonTop, coeffRayonShiny, addNbVerticies = listCoeff[0], listCoeff[1], listCoeff[2], listCoeff[3], listCoeff[4], listCoeff[5]
 
     if addNbVerticies < -4:
         addNbVerticies = -4
@@ -299,7 +294,7 @@ def createDiamond(diamond, listCoeff, listBool):
 #     glEnd()
 
 
-def Cube(x, diamond, colors):
+def Diamond(x, diamond, colors):
     surfaces = diamond[0]
     verticies = diamond[2]
     nbShinyPts = len(diamond[6])
@@ -351,7 +346,7 @@ def main():
 
     glTranslatef(0.0, 0.0, -40)
     x = random.randint(1, 10)
-    rayonBottom, rayonMiddle, rayonTop, rayonShiny, transparency, height, verticies = False, False, False, False, True, True, False
+    rayonBottom, rayonMiddle, rayonTop, rayonShiny, transparency, height, vertices = False, False, False, False, True, True, False
     coeffRayonBottom, coeffRayonMiddle, coeffRayonTop, coeffRayonShiny, coeffHeight, addNbVerticies = 0, 0, 0, 0, 0, 0
     print(rayonBottom)
     glPushMatrix()
@@ -393,34 +388,34 @@ def main():
                     rayonMiddle = False
                     rayonTop = False
                     rayonShiny = False
-                    verticies = False
+                    vertices = False
                 elif event.key == pygame.K_KP1:
                     height = False
                     rayonBottom = True
                     rayonMiddle = False
                     rayonTop = False
                     rayonShiny = False
-                    verticies = False
+                    vertices = False
                 elif event.key == pygame.K_KP2:
                     height = False
                     rayonBottom = False
                     rayonMiddle = True
                     rayonTop = False
                     rayonShiny = False
-                    verticies = False
+                    vertices = False
                 elif event.key == pygame.K_KP3:
                     height = False
                     rayonBottom = False
                     rayonMiddle = False
                     rayonTop = True
                     rayonShiny = False
-                    verticies = False
+                    vertices = False
                 elif event.key == pygame.K_KP4:
                     height = False
                     rayonBottom = False
                     rayonMiddle = False
                     rayonTop = False
-                    verticies = False
+                    vertices = False
                     if diamondNumber >= 3:
                         rayonShiny = True
                 elif event.key == pygame.K_v:
@@ -429,7 +424,7 @@ def main():
                     rayonMiddle = False
                     rayonTop = False
                     rayonShiny = False
-                    verticies = True
+                    vertices = True
 
 
 
@@ -444,7 +439,7 @@ def main():
                         coeffRayonTop += 0.1
                     elif rayonShiny:
                         coeffRayonShiny += 0.1
-                    elif verticies:
+                    elif vertices:
                         addNbVerticies += 1
                 elif event.key == pygame.K_KP_MINUS:
                     if height:
@@ -457,7 +452,7 @@ def main():
                         coeffRayonTop -= 0.1
                     elif rayonShiny:
                         coeffRayonShiny -= 0.1
-                    elif verticies:
+                    elif vertices:
                         if addNbVerticies > -3:
                             addNbVerticies -= 1
 
@@ -494,7 +489,7 @@ def main():
             glTranslatef(0, 0, -1)
         if keypress[pygame.K_F6]:
             glTranslatef(0, 0, 1)
-        Cube(x, diamond, colors)
+        Diamond(x, diamond, colors)
         # Ground
         glColor4f(0.5, 0.5, 0.5, 0)
         glBegin(GL_QUADS)

@@ -250,10 +250,7 @@ def key_input_clb(window, key, scancode, action, mode):
     global diamondNumber, currentDirection, colors, colorsBlue, rayonBottom, rayonMiddle, rayonTop, rayonShiny, \
         transparency, height, vertices, coeffRayonBottom, coeffRayonMiddle, coeffRayonTop, coeffRayonShiny, coeffHeight, addNbVerticies, colorsRed, colorsBlue, colorsGreen
 
-    # if key == glfw.KEY_W and action == glfw.PRESS:
-    #     print("lalalalla")
-    # elif key == glfw.KEY_W and action == glfw.RELEASE:
-    #     forward = False
+
     # display the right diamond
     if key == glfw.KEY_1:
         diamondNumber = 1
@@ -291,9 +288,7 @@ def key_input_clb(window, key, scancode, action, mode):
 
 
     elif key == glfw.KEY_KP_ADD and action == glfw.PRESS:
-        print("uéééééééééééééé")
         if height:
-            print("bis")
             coeffHeight += 0.1
         elif rayonBottom:
             coeffRayonBottom += 0.1
